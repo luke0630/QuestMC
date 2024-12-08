@@ -1,0 +1,4 @@
+name: QuestMC
+version: '1.0'
+main: org.luke.questMC.QuestMC
+api-version: '1.21'
