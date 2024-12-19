@@ -1,0 +1,10 @@
+name: QuestMC
+version: '${project.version}'
+main: org.luke.questMC.QuestMC
+api-version: '1.21'
+commands:
+  quest:
+    aliases: quest
+    description: メインコマンド
+    permission: quest.commands.quest
+    permission-message: "あなたはこれを実行する権限を持っていません。"
