@@ -41,11 +41,18 @@ public class Quest_HelloWorld extends QuestBase<QuestEnum.Quest_Normal> {
 
     @Override
     public RewardInfo getRewardCustom() {
-        return new RewardInfo(List.of(
-                "うーんテスト!"
-        ), (Player player) -> {
-            player.sendMessage("きちゃんごねぇ");
-        });
+        return null;
+    }
+
+    @Override
+    public String SaveJson() {
+        Map<String, String> resultMap = new HashMap<>();
+
+        for(Map.Entry<Player, Double> entry : walkedDistance.entrySet())  {
+            resultMap.put( entry.getKey().getUniqueId().toString(), entry.getValue().toString() );
+        }
+        JSONObject json = SQLUtility.convertMapToJson(resultMap);
+        return json.toString();
     }
 
     @Override
