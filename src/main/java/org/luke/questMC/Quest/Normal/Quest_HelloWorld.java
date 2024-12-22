@@ -6,9 +6,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
-import org.luke.questMC.QuestMC;
+import org.json.JSONObject;
 import org.luke.questMC.QuestManager.QuestBase;
 import org.luke.questMC.QuestManager.QuestEnum;
+import org.luke.questMC.QuestManager.QuestManager;
+import org.luke.questMC.SQL.SQLUtility;
 import org.luke.takoyakiLibrary.TakoUtility;
 
 import java.util.HashMap;
@@ -17,10 +19,10 @@ import java.util.Map;
 
 import static org.luke.takoyakiLibrary.TakoUtility.getItem;
 
-public class Quest_HelloWorld extends QuestBase<QuestEnum.Quest_Normal> {
+public class Quest_HelloWorld extends QuestBase {
 
     Map<Player, Double> walkedDistance = new HashMap<>();
-    final double completionCondition = 100; //100Meter
+    final double completionCondition = 100;
 
     @Override
     public Material getIcon() {
@@ -35,7 +37,7 @@ public class Quest_HelloWorld extends QuestBase<QuestEnum.Quest_Normal> {
     @Override
     public List<String> getDescription() {
         return List.of(
-                "100メートル歩き回る"
+                completionCondition + "メートル歩き回る"
         );
     }
 
@@ -71,7 +73,7 @@ public class Quest_HelloWorld extends QuestBase<QuestEnum.Quest_Normal> {
 
 
     @EventHandler
-    public void onPlayerInteract(PlayerMoveEvent event) {
+    public void onPlayerMoveEvent(PlayerMoveEvent event) {
         Player player = event.getPlayer();
 
         // クエスト進行中のプレイヤーのみ処理
@@ -89,6 +91,7 @@ public class Quest_HelloWorld extends QuestBase<QuestEnum.Quest_Normal> {
         QuestManager.UpdateProgressInfo(player, List.of(
                 "残り:  " + (int)currentDistance + "メートル"
         ));
+
 
         if(currentDistance <= 0) {
             complete(player);

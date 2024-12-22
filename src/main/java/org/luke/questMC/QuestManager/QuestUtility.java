@@ -9,7 +9,7 @@ import java.util.List;
 import static org.luke.takoyakiLibrary.TakoUtility.setLore;
 
 public class QuestUtility {
-    public static ItemStack getIcon(QuestBase<?> quest) {
+    public static ItemStack getIcon(QuestBase quest) {
         ItemStack item = TakoUtility.getItem(quest.getIcon(), quest.getQuestName());
 
         List<String> lore = new ArrayList<>();

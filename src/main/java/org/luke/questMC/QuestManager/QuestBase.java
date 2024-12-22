@@ -7,7 +7,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.luke.questMC.QuestMC;
 import org.luke.questMC.Toast;
 
 import java.util.List;
@@ -15,9 +14,7 @@ import java.util.List;
 import static org.luke.questMC.Toast.displayTo;
 import static org.luke.takoyakiLibrary.TakoUtility.toColor;
 
-public abstract class QuestBase<E extends Enum<E>> implements Listener {
-    QuestManager<QuestEnum.Quest_Normal> questManager;
-
+public abstract class QuestBase implements Listener {
     @FunctionalInterface
     public interface RewardRunnable {
         void run(Player player);
@@ -25,18 +22,14 @@ public abstract class QuestBase<E extends Enum<E>> implements Listener {
 
     public record RewardInfo(List<String> description, RewardRunnable runnable){}
 
-
-    public void Init() {
-        this.questManager = QuestMC.getQuestManager();
-    }
-
     // クエスト名を取得
     public abstract Material getIcon();
     public abstract String getQuestName();
     public abstract List<String> getDescription();
     public abstract List<ItemStack> getRewardItem();
     public abstract RewardInfo getRewardCustom();
-    public abstract E getType();
+    public abstract String SaveJson();
+    public abstract QuestEnum.Quest_Normal getType();
 
     // クエスト完了 (基本動作)
     public void complete(Player player) {
@@ -45,7 +38,7 @@ public abstract class QuestBase<E extends Enum<E>> implements Listener {
         QuestManager.getProgressInfo().remove(player);
         QuestManager.addClearedQuest(player.getUniqueId(), getType());
 
-        player.sendMessage(toColor("&a&lクエストを達成しました！: " + getQuestName()));
+        player.sendMessage(toColor("&a&lクエストを達成しました: " + getQuestName()));
         player.sendMessage(toColor("&a以下の報酬が渡されました。"));
 
 
