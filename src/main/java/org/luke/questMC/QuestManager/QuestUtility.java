@@ -37,7 +37,7 @@ public class QuestUtility {
         //もしリワードが二つあった場合の中間地点を分ける(見やすくするため)
         if(rewardCustom != null && rewardItem != null) {
             lore.add("&8============================");
-        } else {
+        } else if(rewardCustom == null && rewardItem == null) {
             noReward = true;
         }
 
