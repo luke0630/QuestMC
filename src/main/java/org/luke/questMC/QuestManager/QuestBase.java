@@ -42,7 +42,8 @@ public abstract class QuestBase<E extends Enum<E>> implements Listener {
     public void complete(Player player) {
         onComplete(player);
 
-        QuestMC.getQuestManager().getActivePlayers().remove(player);
+        QuestManager.getProgressInfo().remove(player);
+        QuestManager.addClearedQuest(player.getUniqueId(), getType());
 
         player.sendMessage(toColor("&a&lクエストを達成しました！: " + getQuestName()));
         player.sendMessage(toColor("&a以下の報酬が渡されました。"));
@@ -67,8 +68,8 @@ public abstract class QuestBase<E extends Enum<E>> implements Listener {
 
     // クエスト進行中か確認
     public boolean isInProgress(Player player) {
-        if(questManager.getActivePlayers().containsKey(player)) {
-            return questManager.getActivePlayers().get(player).getType() == getType();
+        if(QuestManager.getProgressInfo().containsKey(player)) {
+            return QuestManager.getProgressInfo().get(player).getType() == getType();
         }
         return false;
     }

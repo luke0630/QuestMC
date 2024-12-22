@@ -79,7 +79,7 @@ public class Quest_HelloWorld extends QuestBase<QuestEnum.Quest_Normal> {
         walkedDistance.put(player, currentDistance);
 
         player.sendActionBar(Component.text("残り:  " + (int)currentDistance + "メートル"));
-        QuestMC.getQuestManager().UpdateProgressInfo(player, List.of(
+        QuestManager.UpdateProgressInfo(player, List.of(
                 "残り:  " + (int)currentDistance + "メートル"
         ));
 

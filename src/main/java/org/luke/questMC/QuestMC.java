@@ -5,9 +5,11 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.luke.questMC.Command.CommandManager;
-import org.luke.questMC.GUI.*;
+import org.luke.questMC.GUI.GUITypes;
+import org.luke.questMC.GUI.List_QuestDetails;
+import org.luke.questMC.GUI.List_Quests;
+import org.luke.questMC.GUI.QuestHome;
 import org.luke.questMC.Quest.Normal.Quest_HelloWorld;
-import org.luke.questMC.QuestManager.QuestEnum;
 import org.luke.questMC.QuestManager.QuestManager;
 import org.luke.questMC.SQL.SQLData;
 import org.luke.yakisobaGUILib.YakisobaGUILib;
@@ -25,8 +27,6 @@ public final class QuestMC extends JavaPlugin implements Listener {
     private static YakisobaGUILib<GUITypes.GUIEnum, GUITypes.ListGUIEnum> manager;
     @Getter
     private static DataClass guiManager;
-    @Getter
-    private static QuestManager<QuestEnum.Quest_Normal> questManager;
     @Getter
     private static FileConfiguration settingConfig;
 
@@ -57,8 +57,7 @@ public final class QuestMC extends JavaPlugin implements Listener {
 
         getServer().getPluginManager().registerEvents(this, this);
 
-        questManager = new QuestManager<>();
-        questManager.registerQuest(new Quest_HelloWorld());
+        QuestManager.registerQuest(new Quest_HelloWorld());
     }
 
     @Override
@@ -73,5 +72,4 @@ public final class QuestMC extends JavaPlugin implements Listener {
         String databaseName = settingConfig.getString("mysql-database-name");
         SQLData.Initialization(url, username, password, databaseName);
     }
-
 }

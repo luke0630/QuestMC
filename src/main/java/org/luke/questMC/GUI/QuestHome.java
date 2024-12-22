@@ -7,7 +7,7 @@ import org.bukkit.inventory.Inventory;
 import org.luke.questMC.DataClass;
 import org.luke.questMC.QuestMC;
 import org.luke.questMC.QuestManager.QuestBase;
-import org.luke.questMC.QuestManager.QuestEnum;
+import org.luke.questMC.QuestManager.QuestManager;
 import org.luke.questMC.QuestManager.QuestUtility;
 import org.luke.takoyakiLibrary.TakoUtility;
 import org.luke.yakisobaGUILib.Abstract.GUIAbstract;
@@ -18,7 +18,7 @@ import java.util.List;
 import static org.luke.takoyakiLibrary.TakoUtility.*;
 
 public class QuestHome extends GUIAbstract<GUITypes.GUIEnum> {
-    private QuestBase<QuestEnum.Quest_Normal> quest;
+    private QuestBase quest;
 
     @Override
     public GUITypes.GUIEnum getType() {
@@ -32,16 +32,16 @@ public class QuestHome extends GUIAbstract<GUITypes.GUIEnum> {
             inv.setItem(i, getItem(Material.BLACK_STAINED_GLASS_PANE, " "));
         }
 
-        if(QuestMC.getQuestManager().getActivePlayers().containsKey(player)) {
+        if(QuestManager.getProgressInfo().containsKey(player)) {
             var item = QuestUtility.getIcon(quest);
 
             var result = new ArrayList<String>();
-            result.add("&f" + QuestMC.getQuestManager().getQuest((QuestEnum.Quest_Normal) QuestMC.getQuestManager().getActivePlayers().get(player).getType()).getQuestName());
+            result.add("&f" + quest.getQuestName());
             result.addAll( item.getLore() );
             result.add("&c&l現在の進行状況");
 
             //初期では色付けする
-            for(var list : QuestMC.getQuestManager().getActivePlayers().get(player).getProgressInfo()) {
+            for(var list : QuestManager.getProgressInfo().get(player).getProgressInfo()) {
                 result.add("&a" + list);
             }
 
@@ -81,7 +81,7 @@ public class QuestHome extends GUIAbstract<GUITypes.GUIEnum> {
     @Override
     public void onStart() {
         try {
-            quest = QuestMC.getQuestManager().getQuest((QuestEnum.Quest_Normal) QuestMC.getQuestManager().getActivePlayers().get(player).getType());
+            quest = QuestManager.getQuest(QuestManager.getProgressInfo().get(player).getType());
         } catch (Exception ignored) {
 
         }

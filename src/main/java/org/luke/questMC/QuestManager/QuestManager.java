@@ -1,37 +1,43 @@
 package org.luke.questMC.QuestManager;
 
 import lombok.Getter;
+import lombok.experimental.UtilityClass;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.luke.questMC.QuestMC;
+import org.luke.questMC.SQL.SQLManager;
 
 import java.util.*;
 
 import static org.luke.takoyakiLibrary.TakoUtility.toColor;
 
-@Getter
-public class QuestManager<E extends Enum<E>> {
-    private final Map<Enum<E>, QuestBase<E>> quests = new HashMap<>();
-    private final Map<Player, QuestProgressInfo> activePlayers = new HashMap<>();
+
+@UtilityClass
+public class QuestManager {
+    @Getter
+    private final Map<Enum<QuestEnum.Quest_Normal>, QuestBase> quests = new HashMap<>();
+    @Getter
+    private final Map<UUID, List<QuestEnum.Quest_Normal>> clearedQuests = new HashMap<>();
+    @Getter
+    private final Map<Player, QuestProgressInfo> progressInfo = new HashMap<>();
 
     @Getter
-    public class QuestProgressInfo {
-        private final Enum<E> type;
+    public static class QuestProgressInfo {
+        private final QuestEnum.Quest_Normal type;
         private List<String> progressInfo = new ArrayList<>();
 
-        public QuestProgressInfo(Enum<E> type) {
+        public QuestProgressInfo(QuestEnum.Quest_Normal type) {
             this.type = type;
         }
     }
 
     public void UpdateProgressInfo(Player player, List<String> progressInfo) {
-        QuestProgressInfo info = activePlayers.get(player);
+        QuestProgressInfo info = QuestManager.progressInfo.get(player);
         info.progressInfo = progressInfo;
     }
 
-    public void registerQuest(QuestBase<E> quest) {
-        quest.Init();
+    public void registerQuest(QuestBase quest) {
         quests.put(quest.getType(), quest);
         Bukkit.getPluginManager().registerEvents(quest, QuestMC.getInstance());
     }
@@ -42,7 +48,7 @@ public class QuestManager<E extends Enum<E>> {
     }
 
     // クエストを取得
-    public QuestBase<E> getQuest(E questEnum) {
+    public QuestBase getQuest(QuestEnum.Quest_Normal questEnum) {
         for(var quest : quests.entrySet()) {
             if(quest.getKey() == questEnum) {
                 return quest.getValue();
@@ -51,16 +57,20 @@ public class QuestManager<E extends Enum<E>> {
         return null;
     }
 
+    public void addClearedQuest(UUID uuid, QuestEnum.Quest_Normal questNormal) {
+        SQLManager.addClearedEnum(uuid.toString(), questNormal);
+    }
+
     // クエストを開始
-    public void startQuest(E questType, Player player) {
-        QuestBase<?> quest = getQuest(questType);
+    public void startQuest(QuestEnum.Quest_Normal questType, Player player) {
+        QuestBase quest = getQuest(questType);
         if (quest != null) {
-            if(!activePlayers.containsKey(player)) {
-                activePlayers.put(player, new QuestProgressInfo(questType));
+            if(!progressInfo.containsKey(player)) {
+                progressInfo.put(player, new QuestProgressInfo(questType));
                 quest.onStart(player);
                 player.sendMessage(toColor("&a&lクエストを開始しました: " + quest.getQuestName()));
             } else {
-                if(activePlayers.get(player).type == questType) {
+                if(progressInfo.get(player).type == questType) {
                     player.sendMessage(toColor("&cそのクエストはすでに開始しています。"));
                 }
             }

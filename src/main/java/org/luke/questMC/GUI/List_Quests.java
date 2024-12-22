@@ -7,7 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import org.luke.questMC.DataClass;
 import org.luke.questMC.QuestMC;
 import org.luke.questMC.QuestManager.QuestBase;
-import org.luke.questMC.QuestManager.QuestEnum;
+import org.luke.questMC.QuestManager.QuestManager;
 import org.luke.questMC.QuestManager.QuestUtility;
 import org.luke.yakisobaGUILib.Abstract.ListGUIAbstract;
 import org.luke.yakisobaGUILib.CustomRunnable;
@@ -19,7 +19,7 @@ import static org.luke.takoyakiLibrary.TakoUtility.setLore;
 import static org.luke.takoyakiLibrary.TakoUtility.toColor;
 
 public class List_Quests extends ListGUIAbstract<GUITypes.ListGUIEnum> {
-    List<QuestBase<QuestEnum.Quest_Normal>> quests = new ArrayList<>();
+    List<QuestBase> quests = new ArrayList<>();
 
     @Override
     public String getGUITitle() {
@@ -29,13 +29,13 @@ public class List_Quests extends ListGUIAbstract<GUITypes.ListGUIEnum> {
     @Override
     public List<ItemStack> getItemList() {
         List<ItemStack> items = new ArrayList<>();
-        for(var quest : QuestMC.getQuestManager().getQuests().values()) {
+        for(var quest : QuestManager.getQuests().values()) {
             quests.add(quest);
 
             if(quest.isInProgress(player)) {
                 var item = QuestUtility.getIcon(quest);
                 var result = new ArrayList<String>();
-                result.add("&f" + QuestMC.getQuestManager().getQuest((QuestEnum.Quest_Normal) QuestMC.getQuestManager().getActivePlayers().get(player).getType()).getQuestName());
+                result.add("&f" + QuestManager.getQuest(QuestManager.getProgressInfo().get(player).getType()).getQuestName());
                 result.addAll( item.getLore() );
                 result.add("&cクリックして詳細を確認");
 

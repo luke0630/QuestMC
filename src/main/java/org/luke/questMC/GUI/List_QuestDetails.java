@@ -5,7 +5,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.luke.questMC.QuestMC;
 import org.luke.questMC.QuestManager.QuestBase;
-import org.luke.questMC.QuestManager.QuestEnum;
+import org.luke.questMC.QuestManager.QuestManager;
 import org.luke.questMC.QuestManager.QuestUtility;
 import org.luke.takoyakiLibrary.TakoUtility;
 import org.luke.yakisobaGUILib.Abstract.ListGUIAbstract;
@@ -19,7 +19,7 @@ import static org.luke.takoyakiLibrary.TakoUtility.setLore;
 
 public class List_QuestDetails extends ListGUIAbstract<GUITypes.ListGUIEnum> {
 
-    QuestBase<QuestEnum.Quest_Normal> quest;
+    QuestBase quest;
     @Override
     public String getGUITitle() {
         return "達成報酬リスト : " + quest.getQuestName();
@@ -32,7 +32,7 @@ public class List_QuestDetails extends ListGUIAbstract<GUITypes.ListGUIEnum> {
 
     @Override
     public ItemStack setCenterItemStack() {
-        if(!QuestMC.getQuestManager().getActivePlayers().containsKey(player) ) {
+        if(!QuestManager.getProgressInfo().containsKey(player) ) {
             var item = QuestUtility.getIcon(quest);
             item.setType(Material.REDSTONE_BLOCK);
             var result = item.getLore();
@@ -57,8 +57,8 @@ public class List_QuestDetails extends ListGUIAbstract<GUITypes.ListGUIEnum> {
     @Override
     public CustomRunnable.InventoryRunnable whenClickCenter() {
         return (InventoryClickEvent event) -> {
-            if(!QuestMC.getQuestManager().getActivePlayers().containsKey(player) ) {
-                QuestMC.getQuestManager().startQuest(quest.getType(), player);
+            if(!QuestManager.getProgressInfo().containsKey(player) ) {
+                QuestManager.startQuest(quest.getType(), player);
                 player.closeInventory();
             } else {
                 player.sendMessage("そのクエストはすでに開始しています。");
@@ -90,6 +90,6 @@ public class List_QuestDetails extends ListGUIAbstract<GUITypes.ListGUIEnum> {
     @Override
     public void onStart() {
         var type = QuestMC.getGuiManager().getOpenQuestDetails().get(player).type();
-        this.quest = QuestMC.getQuestManager().getQuest(type);
+        this.quest = QuestManager.getQuest(type);
     }
 }
