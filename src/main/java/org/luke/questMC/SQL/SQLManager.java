@@ -1,19 +1,14 @@
 package org.luke.questMC.SQL;
 
-import org.luke.questMC.QuestMC;
-
 import org.json.JSONArray;
+import org.luke.questMC.QuestMC;
 import org.luke.questMC.QuestManager.QuestEnum;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SQLManager {
-    private static final Logger log = LoggerFactory.getLogger(SQLManager.class);
-
     public interface MyCallback {
         void onComplete(); // コールバックが完了したときに呼ばれるメソッド
     }
@@ -26,7 +21,6 @@ public class SQLManager {
     static final String progress_tableName = "questProgressData";
     final static String progress_column_type = "type";
     final static String progress_column_data = "data";
-
 
     public static void ConnectionToDatabase(MyCallback result) {
         String url = "jdbc:mysql://" + SQLData.getURL();
@@ -50,7 +44,6 @@ public class SQLManager {
         try {
             Statement statement = connection.createStatement();
 
-            // データベース作成を実行
             executes.add("CREATE DATABASE IF NOT EXISTS " + dbName);
 
             executes.add("USE " + dbName);
@@ -78,6 +71,51 @@ public class SQLManager {
             callback.onComplete();
         }
     }
+    public static void SaveProgressData(QuestEnum.Quest_Normal type, String json) {
+        try {
+            if(isExistsKey(progress_tableName, progress_column_type, type.name())) {
+                String query = "UPDATE "+ progress_tableName +" SET "+ progress_column_data +" = ? WHERE "+ progress_column_type +" = ?;";
+                PreparedStatement ps = connection.prepareStatement(query);
+                ps.setString(1, String.valueOf(json));
+                ps.setString(2, type.name());
+                ps.executeUpdate();
+            } else {
+                String query = "INSERT INTO " + progress_tableName + " (" + progress_column_type + ", " + progress_column_data + ") VALUES (?, ?)";
+                PreparedStatement ps = connection.prepareStatement(query);
+                ps.setString(1, type.name());
+                ps.setString(2, String.valueOf(json));
+                ps.executeUpdate();
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static String LoadProgressData(QuestEnum.Quest_Normal type) {
+        try {
+            Statement statement = connection.createStatement();
+
+            statement.executeUpdate("USE " + SQLData.getDATABASE_NAME());
+            String query = "SELECT " + progress_column_data + " FROM " + progress_tableName + " WHERE " + progress_column_type + " = ?";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, type.name());
+
+            ResultSet resultSet = ps.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getString(column_quests_cleared);
+            }
+
+            resultSet.close();
+            ps.close();
+        } catch (Exception e) {
+            System.out.println(e);
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
 
     public static void addAndUpdateQuestData(String uuid, List<QuestEnum.Quest_Normal> quests) {
         try {
