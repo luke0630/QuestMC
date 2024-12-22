@@ -20,7 +20,7 @@ import static org.luke.takoyakiLibrary.TakoUtility.getItem;
 public class Quest_HelloWorld extends QuestBase<QuestEnum.Quest_Normal> {
 
     Map<Player, Double> walkedDistance = new HashMap<>();
-    double completionCondition = 100; //100Meter
+    final double completionCondition = 100; //100Meter
 
     @Override
     public Material getIcon() {
