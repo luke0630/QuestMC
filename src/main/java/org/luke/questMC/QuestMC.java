@@ -1,6 +1,7 @@
 package org.luke.questMC;
 
 import lombok.Getter;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.luke.questMC.Command.CommandManager;
@@ -8,10 +9,14 @@ import org.luke.questMC.GUI.*;
 import org.luke.questMC.Quest.Normal.Quest_HelloWorld;
 import org.luke.questMC.QuestManager.QuestEnum;
 import org.luke.questMC.QuestManager.QuestManager;
+import org.luke.questMC.SQL.SQLData;
 import org.luke.yakisobaGUILib.YakisobaGUILib;
 
 import java.util.List;
 import java.util.Objects;
+
+import static org.luke.questMC.SQL.SQLManager.ConnectionToDatabase;
+import static org.luke.questMC.SQL.SQLManager.CreateDatabase;
 
 public final class QuestMC extends JavaPlugin implements Listener {
     @Getter
@@ -22,7 +27,8 @@ public final class QuestMC extends JavaPlugin implements Listener {
     private static DataClass guiManager;
     @Getter
     private static QuestManager<QuestEnum.Quest_Normal> questManager;
-
+    @Getter
+    private static FileConfiguration settingConfig;
 
     @Override
     public void onEnable() {
@@ -35,6 +41,16 @@ public final class QuestMC extends JavaPlugin implements Listener {
         ));
 
         guiManager = new DataClass();
+
+        saveDefaultConfig();
+        settingConfig = getConfig();
+        Load();
+
+        ConnectionToDatabase(() -> {
+            CreateDatabase(() -> {
+
+            });
+        });
 
         var command = getCommand("quest");
         Objects.requireNonNull(command).setExecutor(new CommandManager());
@@ -49,4 +65,13 @@ public final class QuestMC extends JavaPlugin implements Listener {
     public void onDisable() {
         // Plugin shutdown logic
     }
+
+    private void Load() {
+        String url = settingConfig.getString("mysql-url");
+        String username = settingConfig.getString("mysql-username");
+        String password = settingConfig.getString("mysql-password");
+        String databaseName = settingConfig.getString("mysql-database-name");
+        SQLData.Initialization(url, username, password, databaseName);
+    }
+
 }
