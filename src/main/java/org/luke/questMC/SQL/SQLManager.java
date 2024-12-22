@@ -125,7 +125,7 @@ public class SQLManager {
             }
             JSONArray obj = new JSONArray(string_quests);
 
-            if(isExistsKey(uuid)) {
+            if(isExistsKey(tableName, column_uuid, uuid)) {
                 String query = "UPDATE "+ tableName +" SET "+ column_quests_cleared +" = ? WHERE "+ column_uuid +" = ?;";
                 PreparedStatement ps = connection.prepareStatement(query);
                 ps.setString(1, String.valueOf(obj));
@@ -232,10 +232,10 @@ public class SQLManager {
     }
 
     //Utility class
-    public static boolean isExistsKey(String uuid) {
+    public static boolean isExistsKey(String table, String key_column, String key) {
         try {
-            PreparedStatement ps = connection.prepareStatement("SELECT EXISTS(SELECT 1 FROM "+ tableName +" WHERE "+ tableName +"."+ column_uuid +" = ?) AS exists_flag;");
-            ps.setString(1, uuid);
+            PreparedStatement ps = connection.prepareStatement("SELECT EXISTS(SELECT 1 FROM "+ table +" WHERE "+ table +"."+ key_column +" = ?) AS exists_flag;");
+            ps.setString(1, key);
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) { // カーソルを結果セットの最初の行に移動
