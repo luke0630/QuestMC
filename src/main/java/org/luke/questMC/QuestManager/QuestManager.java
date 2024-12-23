@@ -44,11 +44,6 @@ public class QuestManager {
         Bukkit.getPluginManager().registerEvents(quest, QuestMC.getInstance());
     }
 
-    public void unregisterAllQuests() {
-        quests.values().forEach(HandlerList::unregisterAll);
-        quests.clear();
-    }
-
     // クエストを取得
     public QuestBase getQuest(QuestEnum.Quest_Normal questEnum) {
         for(var quest : quests.entrySet()) {
