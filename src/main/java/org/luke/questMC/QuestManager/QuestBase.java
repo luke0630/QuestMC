@@ -7,6 +7,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.json.JSONObject;
+import org.luke.questMC.SQL.SQLManager;
 import org.luke.questMC.Toast;
 
 import java.util.List;
@@ -37,7 +39,9 @@ public abstract class QuestBase implements Listener {
     public void complete(Player player) {
         onComplete(player);
 
-        QuestManager.getProgressInfo().remove(player);
+        SQLManager.updateCurrentQuest(player.getUniqueId(), null);
+        SQLManager.SaveProgressData(getType(), SaveJson());
+        QuestManager.getProgressInfo().remove(player.getUniqueId());
         QuestManager.addClearedQuest(player.getUniqueId(), getType());
 
         player.sendMessage(toColor("&a&lクエストを達成しました: " + getQuestName()));
