@@ -117,9 +117,33 @@ public class SQLManager {
         }
         return null;
     }
+    public static void LoadProgressData() {
+        try {
+            Statement statement = connection.createStatement();
 
+            statement.executeUpdate("USE " + SQLData.getDATABASE_NAME());
+            String query = "SELECT "+ column_uuid +", "+ column_quest_current +" FROM " + tableName;
+
+            PreparedStatement ps = connection.prepareStatement(query);
+            ResultSet resultSet = ps.executeQuery();
 
     public static void addAndUpdateQuestData(String uuid, List<QuestEnum.Quest_Normal> quests) {
+            if (resultSet.next()) {
+                String uuid = resultSet.getString(column_uuid);
+                String type = resultSet.getString(column_quest_current);
+                if(uuid !=  null && type != null) {
+                    QuestEnum.Quest_Normal quest_current = QuestEnum.Quest_Normal.valueOf( type );
+                    QuestManager.getProgressInfo().put(UUID.fromString(uuid), new QuestManager.QuestProgressInfo(quest_current));
+                }
+            }
+
+            resultSet.close();
+            ps.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
         try {
             List<String> string_quests = new ArrayList<>();
             for(QuestEnum.Quest_Normal quest : quests) {
