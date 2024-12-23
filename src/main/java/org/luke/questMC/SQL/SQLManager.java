@@ -95,20 +95,14 @@ public class SQLManager {
     }
     public static void SaveProgressData(QuestEnum.Quest_Normal type, String json) {
         try {
-            if(isExistsKey(progress_tableName, progress_column_type, type.name())) {
-                String query = "UPDATE "+ progress_tableName +" SET "+ progress_column_data +" = ? WHERE "+ progress_column_type +" = ?;";
-                PreparedStatement ps = connection.prepareStatement(query);
-                ps.setString(1, String.valueOf(json));
-                ps.setString(2, type.name());
-                ps.executeUpdate();
-            } else {
-                String query = "INSERT INTO " + progress_tableName + " (" + progress_column_type + ", " + progress_column_data + ") VALUES (?, ?)";
-                PreparedStatement ps = connection.prepareStatement(query);
-                ps.setString(1, type.name());
-                ps.setString(2, String.valueOf(json));
-                ps.executeUpdate();
-            }
-
+            PreparedStatement ps = GetPrepareStatement(
+                    "INSERT INTO " + progress_tableName + " (" + progress_column_type + ", " + progress_column_data + ") " +
+                    "VALUES (?, ?) " +
+                    "ON DUPLICATE KEY UPDATE " + progress_column_data + " = VALUES(" + progress_column_data + ")"
+            );
+            ps.setString(1, type.name());
+            ps.setString(2, String.valueOf(json));
+            ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -116,11 +110,9 @@ public class SQLManager {
 
     public static JSONObject LoadProgressData(QuestEnum.Quest_Normal type) {
         try {
-            Statement statement = connection.createStatement();
+            ExecuteUpdate("USE " + SQLData.getDATABASE_NAME());
+            PreparedStatement ps = GetPrepareStatement("SELECT " + progress_column_data + " FROM " + progress_tableName + " WHERE " + progress_column_type + " = ?");
 
-            statement.executeUpdate("USE " + SQLData.getDATABASE_NAME());
-            String query = "SELECT " + progress_column_data + " FROM " + progress_tableName + " WHERE " + progress_column_type + " = ?";
-            PreparedStatement ps = connection.prepareStatement(query);
             ps.setString(1, type.name());
 
             ResultSet resultSet = ps.executeQuery();
@@ -132,21 +124,18 @@ public class SQLManager {
             resultSet.close();
             ps.close();
         } catch (Exception e) {
-            System.out.println(e);
             throw new RuntimeException(e);
         }
         return null;
     }
     public static void LoadProgressData() {
         try {
-            Statement statement = connection.createStatement();
+            ExecuteUpdate("USE " + SQLData.getDATABASE_NAME());
+            PreparedStatement ps = GetPrepareStatement(
+                    "SELECT "+ column_uuid +", "+ column_quest_current +" FROM " + tableName
+            );
 
-            statement.executeUpdate("USE " + SQLData.getDATABASE_NAME());
-            String query = "SELECT "+ column_uuid +", "+ column_quest_current +" FROM " + tableName;
-
-            PreparedStatement ps = connection.prepareStatement(query);
             ResultSet resultSet = ps.executeQuery();
-
             if (resultSet.next()) {
                 String uuid = resultSet.getString(column_uuid);
                 String type = resultSet.getString(column_quest_current);
@@ -172,30 +161,25 @@ public class SQLManager {
             }
             JSONArray obj = new JSONArray(string_quests);
 
-            if(isExistsKey(tableName, column_uuid, uuid)) {
-                String query = "UPDATE "+ tableName +" SET "+ column_quests_cleared +" = ? WHERE "+ column_uuid +" = ?;";
-                PreparedStatement ps = connection.prepareStatement(query);
-                ps.setString(1, String.valueOf(obj));
-                ps.setString(2, uuid);
-                ps.executeUpdate();
-            } else {
-                String query = "INSERT INTO " + tableName + " (" + column_uuid + ", " + column_quests_cleared + ") VALUES (?, ?)";
-                PreparedStatement ps = connection.prepareStatement(query);
-                ps.setString(1, uuid);
-                ps.setString(2, String.valueOf(obj));
-                ps.executeUpdate();
-            }
+            PreparedStatement ps = GetPrepareStatement(
+                    "INSERT INTO " + tableName + " (" + column_uuid + ", " + column_quests_cleared + ") " +
+                    "VALUES (?, ?) " +
+                    "ON DUPLICATE KEY UPDATE " + column_quests_cleared + " = VALUES(" + column_quests_cleared + ")"
+            );
+            ps.setString(1, uuid);
+            ps.setString(2, String.valueOf(obj));
+            ps.executeUpdate();
         } catch (Exception e) {
-            System.out.println(e);
             throw new RuntimeException(e);
         }
     }
 
     public static void updateCurrentQuest(UUID uuid, QuestEnum.Quest_Normal type) {
         try {
-            String sql = "INSERT INTO "+ tableName +" ("+ column_uuid +", "+ column_quest_current +") VALUES (?, ?) " +
-                    "ON DUPLICATE KEY UPDATE "+ column_quest_current +" = VALUES("+ column_quest_current +")";
-            PreparedStatement ps = connection.prepareStatement(sql);
+            PreparedStatement ps = GetPrepareStatement(
+                    "INSERT INTO "+ tableName +" ("+ column_uuid +", "+ column_quest_current +") VALUES (?, ?) " +
+                    "ON DUPLICATE KEY UPDATE "+ column_quest_current +" = VALUES("+ column_quest_current +")"
+            );
 
             ps.setString(1, uuid.toString());
             if(type == null) {
@@ -206,18 +190,16 @@ public class SQLManager {
 
             ps.executeUpdate();
         } catch (Exception e) {
-            System.out.println(e);
             throw new RuntimeException(e);
         }
     }
 
     public static void addClearedEnum(String uuid, QuestEnum.Quest_Normal quest) {
         try {
-            Statement statement = connection.createStatement();
-
-            statement.executeUpdate("USE " + SQLData.getDATABASE_NAME());
-            String query = "SELECT " + column_quests_cleared + " FROM " + tableName + " WHERE " + column_uuid + " = ?";
-            PreparedStatement ps = connection.prepareStatement(query);
+            ExecuteUpdate("USE " + SQLData.getDATABASE_NAME());
+            PreparedStatement ps = GetPrepareStatement(
+                    "SELECT " + column_quests_cleared + " FROM " + tableName + " WHERE " + column_uuid + " = ?"
+            );
             ps.setString(1, uuid);
 
             ResultSet resultSet = ps.executeQuery();
@@ -251,7 +233,6 @@ public class SQLManager {
                 addAndUpdateQuestData(UUID.fromString(uuid), List.of(quest));
             }
         } catch (Exception e) {
-            System.out.println(e);
             throw new RuntimeException(e);
         }
     }
@@ -259,11 +240,11 @@ public class SQLManager {
     public static List<QuestEnum.Quest_Normal> getClearedEnumList(UUID uuid) {
         var logger = QuestMC.getInstance().getLogger();
         try {
-            Statement statement = connection.createStatement();
+            ExecuteUpdate("USE " + SQLData.getDATABASE_NAME());
 
-            statement.executeUpdate("USE " + SQLData.getDATABASE_NAME());
-            String query = "SELECT " + column_quests_cleared + " FROM " + tableName + " WHERE " + column_uuid + " = ?";
-            PreparedStatement ps = connection.prepareStatement(query);
+            PreparedStatement ps = GetPrepareStatement(
+                    "SELECT " + column_quests_cleared + " FROM " + tableName + " WHERE " + column_uuid + " = ?"
+            );
             ps.setString(1, uuid.toString());
 
             ResultSet resultSet = ps.executeQuery();
@@ -293,26 +274,8 @@ public class SQLManager {
             resultSet.close();
             ps.close();
         } catch (Exception e) {
-            System.out.println(e);
             throw new RuntimeException(e);
         }
         return null;
-    }
-
-    //Utility class
-    public static boolean isExistsKey(String table, String key_column, String key) {
-        try {
-            PreparedStatement ps = connection.prepareStatement("SELECT EXISTS(SELECT 1 FROM "+ table +" WHERE "+ table +"."+ key_column +" = ?) AS exists_flag;");
-            ps.setString(1, key);
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) { // カーソルを結果セットの最初の行に移動
-                return rs.getBoolean("exists_flag");
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return false;
     }
 }
