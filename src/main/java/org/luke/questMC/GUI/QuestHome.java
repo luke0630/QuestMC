@@ -14,6 +14,7 @@ import org.luke.yakisobaGUILib.Abstract.GUIAbstract;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static org.luke.takoyakiLibrary.TakoUtility.*;
 
@@ -32,7 +33,8 @@ public class QuestHome extends GUIAbstract<GUITypes.GUIEnum> {
             inv.setItem(i, getItem(Material.BLACK_STAINED_GLASS_PANE, " "));
         }
 
-        if(QuestManager.getProgressInfo().containsKey(player)) {
+        UUID uuid = player.getUniqueId();
+        if(QuestManager.getProgressInfo().containsKey(uuid)) {
             var item = QuestUtility.getIcon(quest);
 
             var result = new ArrayList<String>();
@@ -41,7 +43,7 @@ public class QuestHome extends GUIAbstract<GUITypes.GUIEnum> {
             result.add("&c&l現在の進行状況");
 
             //初期では色付けする
-            for(var list : QuestManager.getProgressInfo().get(player).getProgressInfo()) {
+            for(var list : QuestManager.getProgressInfo().get(uuid).getProgressInfo()) {
                 result.add("&a" + list);
             }
 
@@ -81,7 +83,7 @@ public class QuestHome extends GUIAbstract<GUITypes.GUIEnum> {
     @Override
     public void onStart() {
         try {
-            quest = QuestManager.getQuest(QuestManager.getProgressInfo().get(player).getType());
+            quest = QuestManager.getQuest(QuestManager.getProgressInfo().get(player.getUniqueId()).getType());
         } catch (Exception ignored) {
 
         }
