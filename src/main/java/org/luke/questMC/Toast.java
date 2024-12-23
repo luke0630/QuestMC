@@ -3,6 +3,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public final class Toast {
@@ -58,11 +59,11 @@ public final class Toast {
     }
 
     private void grantAdvancement(Player player) {
-        player.getAdvancementProgress(Bukkit.getAdvancement(key)).awardCriteria("trigger");
+        player.getAdvancementProgress(Objects.requireNonNull(Bukkit.getAdvancement(key))).awardCriteria("trigger");
     }
 
     private void revokeAdvancement(Player player) {
-        player.getAdvancementProgress(Bukkit.getAdvancement(key)).revokeCriteria("trigger");
+        player.getAdvancementProgress(Objects.requireNonNull(Bukkit.getAdvancement(key))).revokeCriteria("trigger");
     }
 
     public static void displayTo(Player player, String icon, String message, Style style) {
