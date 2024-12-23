@@ -32,7 +32,7 @@ public class List_QuestDetails extends ListGUIAbstract<GUITypes.ListGUIEnum> {
 
     @Override
     public ItemStack setCenterItemStack() {
-        if(!QuestManager.getProgressInfo().containsKey(player) ) {
+        if(!QuestManager.isProgressPlayer(player.getUniqueId())) {
             var item = QuestUtility.getIcon(quest);
             item.setType(Material.REDSTONE_BLOCK);
             var result = item.getLore();
@@ -57,7 +57,7 @@ public class List_QuestDetails extends ListGUIAbstract<GUITypes.ListGUIEnum> {
     @Override
     public CustomRunnable.InventoryRunnable whenClickCenter() {
         return (InventoryClickEvent event) -> {
-            if(!QuestManager.getProgressInfo().containsKey(player) ) {
+            if(!QuestManager.isProgressPlayer(player.getUniqueId()) ) {
                 QuestManager.startQuest(quest.getType(), player);
                 player.closeInventory();
             } else {
