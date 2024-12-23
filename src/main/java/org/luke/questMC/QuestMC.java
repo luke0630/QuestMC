@@ -6,10 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.luke.questMC.Command.CommandManager;
 import org.luke.questMC.Event.EventManager;
-import org.luke.questMC.GUI.GUITypes;
-import org.luke.questMC.GUI.List_QuestDetails;
-import org.luke.questMC.GUI.List_Quests;
-import org.luke.questMC.GUI.QuestHome;
+import org.luke.questMC.GUI.*;
 import org.luke.questMC.Quest.Normal.Quest_HelloWorld;
 import org.luke.questMC.QuestManager.QuestBase;
 import org.luke.questMC.QuestManager.QuestEnum;
@@ -40,6 +37,7 @@ public final class QuestMC extends JavaPlugin implements Listener {
         manager = new YakisobaGUILib<>(this, List.of(
                 new List_Quests(),
                 new List_QuestDetails(),
+                new List_ClearedQuests(),
 
                 new QuestHome()
         ));
