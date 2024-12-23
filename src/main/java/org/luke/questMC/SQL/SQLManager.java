@@ -1,12 +1,15 @@
 package org.luke.questMC.SQL;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.luke.questMC.QuestMC;
 import org.luke.questMC.QuestManager.QuestEnum;
+import org.luke.questMC.QuestManager.QuestManager;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class SQLManager {
     public interface MyCallback {
@@ -127,7 +130,6 @@ public class SQLManager {
             PreparedStatement ps = connection.prepareStatement(query);
             ResultSet resultSet = ps.executeQuery();
 
-    public static void addAndUpdateQuestData(String uuid, List<QuestEnum.Quest_Normal> quests) {
             if (resultSet.next()) {
                 String uuid = resultSet.getString(column_uuid);
                 String type = resultSet.getString(column_quest_current);
@@ -144,6 +146,8 @@ public class SQLManager {
         }
     }
 
+    public static void addAndUpdateQuestData(UUID u_uuid, List<QuestEnum.Quest_Normal> quests) {
+        String uuid = u_uuid.toString();
         try {
             List<String> string_quests = new ArrayList<>();
             for(QuestEnum.Quest_Normal quest : quests) {
