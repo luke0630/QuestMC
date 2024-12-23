@@ -39,6 +39,25 @@ public class SQLManager {
         }
     }
 
+    public static void ExecuteUpdate(String command) {
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(command);
+
+            statement.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public static PreparedStatement GetPrepareStatement(String  query) {
+        try {
+            return connection.prepareStatement(query);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
     public static void CreateDatabase(MyCallback callback) {
         final String dbName = SQLData.getDATABASE_NAME();
         List<String> executes = new ArrayList<>();
