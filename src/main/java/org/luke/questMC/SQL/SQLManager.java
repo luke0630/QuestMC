@@ -172,7 +172,26 @@ public class SQLManager {
             System.out.println(e);
             throw new RuntimeException(e);
         } finally {
+        }
+    }
 
+    public static void updateCurrentQuest(UUID uuid, QuestEnum.Quest_Normal type) {
+        try {
+            String sql = "INSERT INTO "+ tableName +" ("+ column_uuid +", "+ column_quest_current +") VALUES (?, ?) " +
+                    "ON DUPLICATE KEY UPDATE "+ column_quest_current +" = VALUES("+ column_quest_current +")";
+            PreparedStatement ps = connection.prepareStatement(sql);
+
+            ps.setString(1, uuid.toString());
+            if(type == null) {
+                ps.setString(2, null);
+            } else {
+                ps.setString(2, type.name());
+            }
+
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+            throw new RuntimeException(e);
         }
     }
 
