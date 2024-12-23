@@ -53,6 +53,8 @@ public class List_Quests extends ListGUIAbstract<GUITypes.ListGUIEnum> {
                 items.add(item);
             } else {
                 List<QuestEnum.Quest_Normal> cleared = SQLManager.getClearedEnumList(uuid);
+
+                if(cleared != null && cleared.contains(quest.getType())) continue; //クリア済みは載せない
                 var item = QuestUtility.getIcon(quest);
 
                 var result = new ArrayList<String>();
@@ -60,9 +62,6 @@ public class List_Quests extends ListGUIAbstract<GUITypes.ListGUIEnum> {
                     result.addAll(item.getLore());
                 }
 
-                if(cleared != null && cleared.contains(quest.getType())) {
-                    result.add("&c&lこのクエストはすでにクリア済みです。");
-                }
                 result.add("&cクリックして詳細を確認してクエストを開始する");
 
                 setLore(item, result);
