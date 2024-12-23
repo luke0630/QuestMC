@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.luke.questMC.Toast;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.luke.questMC.Toast.displayTo;
 import static org.luke.takoyakiLibrary.TakoUtility.toColor;
@@ -62,8 +63,9 @@ public abstract class QuestBase implements Listener {
 
     // クエスト進行中か確認
     public boolean isInProgress(Player player) {
-        if(QuestManager.getProgressInfo().containsKey(player)) {
-            return QuestManager.getProgressInfo().get(player).getType() == getType();
+        UUID uuid = player.getUniqueId();
+        if(QuestManager.isProgressPlayer(uuid)) {
+            return QuestManager.getProgressInfo().get(uuid).getType() == getType();
         }
         return false;
     }
