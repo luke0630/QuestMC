@@ -243,7 +243,7 @@ public class SQLManager {
 
             if (resultSet.next()) {
                 String result = resultSet.getString(column_quests_cleared);
-                logger.info(result);
+                if(result == null) return null;
 
                 JSONArray jsonObj = new JSONArray(result);
                 List<QuestEnum.Quest_Normal> types = new ArrayList<>();
