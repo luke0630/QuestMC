@@ -18,9 +18,11 @@ public class QuestManager {
     @Getter
     private final Map<Enum<QuestEnum.Quest_Normal>, QuestBase> quests = new HashMap<>();
     @Getter
-    private final Map<UUID, List<QuestEnum.Quest_Normal>> clearedQuests = new HashMap<>();
-    @Getter
-    private final Map<Player, QuestProgressInfo> progressInfo = new HashMap<>();
+    private final Map<UUID, QuestProgressInfo> progressInfo = new HashMap<>();
+
+    public boolean isProgressPlayer(UUID uuid) {
+        return progressInfo.containsKey(uuid);
+    }
 
     @Getter
     public static class QuestProgressInfo {
