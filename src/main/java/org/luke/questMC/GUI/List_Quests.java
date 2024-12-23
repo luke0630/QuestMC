@@ -55,7 +55,10 @@ public class List_Quests extends ListGUIAbstract<GUITypes.ListGUIEnum> {
                 List<QuestEnum.Quest_Normal> cleared = SQLManager.getClearedEnumList(uuid);
                 var item = QuestUtility.getIcon(quest);
 
-                var result = item.getLore();
+                var result = new ArrayList<String>();
+                if(item.getLore() != null) {
+                    result.addAll(item.getLore());
+                }
 
                 if(cleared != null && cleared.contains(quest.getType())) {
                     result.add("&c&lこのクエストはすでにクリア済みです。");
@@ -91,9 +94,7 @@ public class List_Quests extends ListGUIAbstract<GUITypes.ListGUIEnum> {
 
     @Override
     public CustomRunnable.InventoryRunnable whenClickBack() {
-        return (InventoryClickEvent event) -> {
-            QuestMC.getManager().OpenGUI(player, GUITypes.GUIEnum.Home);
-        };
+        return (InventoryClickEvent event) -> QuestMC.getManager().OpenGUI(player, GUITypes.GUIEnum.Home);
     }
 
     @Override

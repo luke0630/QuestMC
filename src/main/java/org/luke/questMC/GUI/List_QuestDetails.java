@@ -11,6 +11,7 @@ import org.luke.takoyakiLibrary.TakoUtility;
 import org.luke.yakisobaGUILib.Abstract.ListGUIAbstract;
 import org.luke.yakisobaGUILib.CustomRunnable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.luke.questMC.GUI.GUITypes.ListGUIEnum.Quest_Detail;
@@ -35,7 +36,12 @@ public class List_QuestDetails extends ListGUIAbstract<GUITypes.ListGUIEnum> {
         if(!QuestManager.isProgressPlayer(player.getUniqueId())) {
             var item = QuestUtility.getIcon(quest);
             item.setType(Material.REDSTONE_BLOCK);
-            var result = item.getLore();
+
+            var result = new ArrayList<String>();
+            if(item.getLore() != null) {
+                result.addAll(item.getLore());
+            }
+
             result.add("&cクリックしてクエストを開始する");
             setLore(item, result);
 
