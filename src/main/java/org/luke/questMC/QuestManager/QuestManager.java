@@ -35,7 +35,7 @@ public class QuestManager {
     }
 
     public void UpdateProgressInfo(Player player, List<String> progressInfo) {
-        QuestProgressInfo info = QuestManager.progressInfo.get(player);
+        QuestProgressInfo info = QuestManager.progressInfo.get(player.getUniqueId());
         info.progressInfo = progressInfo;
     }
 
@@ -66,13 +66,15 @@ public class QuestManager {
     // クエストを開始
     public void startQuest(QuestEnum.Quest_Normal questType, Player player) {
         QuestBase quest = getQuest(questType);
+        UUID uuid = player.getUniqueId();
         if (quest != null) {
-            if(!progressInfo.containsKey(player)) {
-                progressInfo.put(player, new QuestProgressInfo(questType));
+            if(!progressInfo.containsKey(uuid)) {
+                progressInfo.put(uuid, new QuestProgressInfo(questType));
                 quest.onStart(player);
+                SQLManager.updateCurrentQuest(uuid, questType);
                 player.sendMessage(toColor("&a&lクエストを開始しました: " + quest.getQuestName()));
             } else {
-                if(progressInfo.get(player).type == questType) {
+                if(progressInfo.get(uuid).type == questType) {
                     player.sendMessage(toColor("&cそのクエストはすでに開始しています。"));
                 }
             }
