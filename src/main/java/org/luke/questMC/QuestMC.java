@@ -5,20 +5,24 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.luke.questMC.Command.CommandManager;
+import org.luke.questMC.Event.EventManager;
 import org.luke.questMC.GUI.GUITypes;
 import org.luke.questMC.GUI.List_QuestDetails;
 import org.luke.questMC.GUI.List_Quests;
 import org.luke.questMC.GUI.QuestHome;
 import org.luke.questMC.Quest.Normal.Quest_HelloWorld;
+import org.luke.questMC.QuestManager.QuestBase;
+import org.luke.questMC.QuestManager.QuestEnum;
 import org.luke.questMC.QuestManager.QuestManager;
 import org.luke.questMC.SQL.SQLData;
+import org.luke.questMC.SQL.SQLManager;
 import org.luke.yakisobaGUILib.YakisobaGUILib;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
-import static org.luke.questMC.SQL.SQLManager.ConnectionToDatabase;
-import static org.luke.questMC.SQL.SQLManager.CreateDatabase;
+import static org.luke.questMC.SQL.SQLManager.*;
 
 public final class QuestMC extends JavaPlugin implements Listener {
     @Getter
@@ -58,6 +62,9 @@ public final class QuestMC extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(this, this);
 
         QuestManager.registerQuest(new Quest_HelloWorld());
+
+        LoadAllProgressData();
+        LoadProgressData();
     }
 
     @Override
@@ -74,5 +81,13 @@ public final class QuestMC extends JavaPlugin implements Listener {
         String password = settingConfig.getString("mysql-password");
         String databaseName = settingConfig.getString("mysql-database-name");
         SQLData.Initialization(url, username, password, databaseName);
+    }
+
+    private void LoadAllProgressData() {
+        for(QuestBase quest :  QuestManager.getQuests().values()) {
+            quest.LoadJson(
+                    LoadProgressData(quest.getType())
+            );
+        }
     }
 }
