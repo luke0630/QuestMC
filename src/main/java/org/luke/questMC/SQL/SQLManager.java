@@ -171,7 +171,6 @@ public class SQLManager {
         } catch (Exception e) {
             System.out.println(e);
             throw new RuntimeException(e);
-        } finally {
         }
     }
 
@@ -208,28 +207,20 @@ public class SQLManager {
 
             if (resultSet.next()) {
                 String result = resultSet.getString(column_quests_cleared);
-                JSONArray jsonObj = new JSONArray(result);
-
-                // contains の代替としてループでチェック
-                boolean contains = false;
-                for (int i = 0; i < jsonObj.length(); i++) {
-                    if (jsonObj.getString(i).equals(quest.name())) {
-                        contains = true;
-                        break;
-                    }
+                JSONArray jsonObj = new JSONArray();
+                if(result != null) {
+                    jsonObj = new JSONArray(result);
                 }
 
-                if(!contains) {
-                    jsonObj.put(quest.name());
+                jsonObj.put(quest.name());
 
-                    String updateQuery = "UPDATE "+ tableName +" SET "+ column_quests_cleared +" = ? WHERE "+ column_uuid +" = ?;";
-                    PreparedStatement updatePs = connection.prepareStatement(updateQuery);
-                    updatePs.setString(1, String.valueOf(jsonObj));
-                    updatePs.setString(2, uuid);
-                    updatePs.executeUpdate();
-                } else {
-                    System.out.println("すでに含まれています");
-                }
+                String updateQuery = "UPDATE "+ tableName +" SET "+ column_quests_cleared +" = ? WHERE "+ column_uuid +" = ?;";
+                PreparedStatement updatePs = connection.prepareStatement(updateQuery);
+                updatePs.setString(1, String.valueOf(jsonObj));
+                updatePs.setString(2, uuid);
+                updatePs.executeUpdate();
+            } else {
+                addAndUpdateQuestData(UUID.fromString(uuid), List.of(quest));
             }
         } catch (Exception e) {
             System.out.println(e);
