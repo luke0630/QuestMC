@@ -25,7 +25,7 @@ public class List_Quests extends ListGUIAbstract<GUITypes.ListGUIEnum> {
 
     @Override
     public String getGUITitle() {
-        return "クエスト一覧";
+        return "クエスト一覧 (未クリア)";
     }
 
     @Override
