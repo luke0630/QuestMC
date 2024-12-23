@@ -63,6 +63,9 @@ public final class QuestMC extends JavaPlugin implements Listener {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+        for(Map.Entry<Enum<QuestEnum.Quest_Normal>, QuestBase> entry :  QuestManager.getQuests().entrySet()) {
+            SQLManager.SaveProgressData((QuestEnum.Quest_Normal) entry.getKey(), entry.getValue().SaveJson());
+        }
     }
 
     private void LoadConfig() {
