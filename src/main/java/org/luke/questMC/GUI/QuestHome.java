@@ -59,12 +59,17 @@ public class QuestHome extends GUIAbstract<GUITypes.GUIEnum> {
             inv.setItem(4, item);
         }
 
-
-        var start = getItem(Material.COMPASS, "&aクエスト一覧 &f| &cクエストを開始する");
+        var start = getItem(Material.COMPASS, "&aクエスト一覧 (未クリア) &f| &cクエストを開始する");
         setLore(start, List.of(
                 "&c&lクリックして一覧を見る"
         ));
         inv.setItem(4+2*9, start);
+
+        var cleared = getItem(Material.REPEATER, "&aクリア済みクエスト一覧");
+        setLore(cleared, List.of(
+                "&c&lクリックして一覧を見る"
+        ));
+        inv.setItem(2+2*9, cleared);
         return inv;
     }
 
@@ -73,6 +78,7 @@ public class QuestHome extends GUIAbstract<GUITypes.GUIEnum> {
         Player player = (Player) inventoryClickEvent.getWhoClicked();
         switch(inventoryClickEvent.getSlot()) {
             case 4+2*9 -> QuestMC.getManager().OpenListGUI(player, GUITypes.ListGUIEnum.Quests);
+            case 2+2*9 -> QuestMC.getManager().OpenListGUI(player, GUITypes.ListGUIEnum.Quests_Cleared);
             case 4 -> {
                 QuestMC.getGuiManager().getOpenQuestDetails().put(player, new DataClass.QuestDetails(quest.getType(), true));
                 QuestMC.getManager().OpenListGUI(player, GUITypes.ListGUIEnum.Quest_Detail);
