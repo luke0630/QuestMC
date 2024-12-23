@@ -60,6 +60,7 @@ public final class QuestMC extends JavaPlugin implements Listener {
         Objects.requireNonNull(command).setExecutor(new CommandManager());
 
         getServer().getPluginManager().registerEvents(this, this);
+        getServer().getPluginManager().registerEvents(new EventManager(), this);
 
         QuestManager.registerQuest(new Quest_HelloWorld());
 
