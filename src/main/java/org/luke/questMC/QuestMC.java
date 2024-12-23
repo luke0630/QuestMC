@@ -44,7 +44,7 @@ public final class QuestMC extends JavaPlugin implements Listener {
 
         saveDefaultConfig();
         settingConfig = getConfig();
-        Load();
+        LoadConfig();
 
         ConnectionToDatabase(() -> {
             CreateDatabase(() -> {
@@ -65,7 +65,7 @@ public final class QuestMC extends JavaPlugin implements Listener {
         // Plugin shutdown logic
     }
 
-    private void Load() {
+    private void LoadConfig() {
         String url = settingConfig.getString("mysql-url");
         String username = settingConfig.getString("mysql-username");
         String password = settingConfig.getString("mysql-password");
