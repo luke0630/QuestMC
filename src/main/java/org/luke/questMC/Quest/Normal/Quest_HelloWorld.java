@@ -13,15 +13,13 @@ import org.luke.questMC.QuestManager.QuestManager;
 import org.luke.questMC.SQL.SQLUtility;
 import org.luke.takoyakiLibrary.TakoUtility;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.luke.takoyakiLibrary.TakoUtility.getItem;
 
 public class Quest_HelloWorld extends QuestBase {
 
-    Map<Player, Double> walkedDistance = new HashMap<>();
+    Map<UUID, Double> walkedDistance = new HashMap<>();
     final double completionCondition = 100;
 
     @Override
@@ -50,8 +48,8 @@ public class Quest_HelloWorld extends QuestBase {
     public String SaveJson() {
         Map<String, String> resultMap = new HashMap<>();
 
-        for(Map.Entry<Player, Double> entry : walkedDistance.entrySet())  {
-            resultMap.put( entry.getKey().getUniqueId().toString(), entry.getValue().toString() );
+        for(Map.Entry<UUID, Double> entry : walkedDistance.entrySet())  {
+            resultMap.put( entry.getKey().toString(), entry.getValue().toString() );
         }
         JSONObject json = SQLUtility.convertMapToJson(resultMap);
         return json.toString();
@@ -79,13 +77,14 @@ public class Quest_HelloWorld extends QuestBase {
         // クエスト進行中のプレイヤーのみ処理
         if (!isInProgress(player)) return;
 
-        if(!walkedDistance.containsKey(player)) {
-            walkedDistance.put(player, completionCondition);
+        UUID uuid = player.getUniqueId();
+        if(!walkedDistance.containsKey(uuid)) {
+            walkedDistance.put(uuid, completionCondition);
         }
 
         double distance = TakoUtility.getDistanceWithoutY(event.getFrom(), event.getTo());
-        double currentDistance = walkedDistance.get(player) - distance;
-        walkedDistance.put(player, currentDistance);
+        double currentDistance = walkedDistance.get(uuid) - distance;
+        walkedDistance.put(uuid, currentDistance);
 
         player.sendActionBar(Component.text("残り:  " + (int)currentDistance + "メートル"));
         QuestManager.UpdateProgressInfo(player, List.of(
@@ -100,6 +99,6 @@ public class Quest_HelloWorld extends QuestBase {
 
     @Override
     protected void onComplete(Player player) {
-        walkedDistance.remove(player);
+        walkedDistance.remove(player.getUniqueId());
     }
 }
