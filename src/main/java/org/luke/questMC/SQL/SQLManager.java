@@ -13,7 +13,7 @@ import java.util.UUID;
 
 public class SQLManager {
     public interface MyCallback {
-        void onComplete(); // コールバックが完了したときに呼ばれるメソッド
+        void onComplete();
     }
 
     static Connection connection = null;
@@ -29,9 +29,7 @@ public class SQLManager {
     public static void ConnectionToDatabase(MyCallback result) {
         String url = "jdbc:mysql://" + SQLData.getURL();
         try {
-            // MySQLドライバのロード
             Class.forName("com.mysql.cj.jdbc.Driver");
-            // データベースへの接続
             System.out.println(SQLData.getUSERNAME() + "   " + SQLData.getPASSWORD());
             connection = DriverManager.getConnection(url, SQLData.getUSERNAME(), SQLData.getPASSWORD());
 
