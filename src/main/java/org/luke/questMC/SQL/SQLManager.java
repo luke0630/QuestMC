@@ -58,7 +58,7 @@ public class SQLManager {
             executes.add(createTable);
 
             String createTable_progress = "CREATE TABLE IF NOT EXISTS " + progress_tableName + " ( " +
-                    progress_column_type + " VARCHAR(50) NOT NULL, " +
+                    progress_column_type + " VARCHAR(64) NOT NULL, " +
                     progress_column_data + " JSON NULL," +
                     " PRIMARY KEY ( " + progress_column_type + " )" +
                     " );";
