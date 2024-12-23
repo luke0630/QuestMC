@@ -228,7 +228,7 @@ public class SQLManager {
         }
     }
 
-    public static List<QuestEnum.Quest_Normal> getClearedEnumList(String uuid) {
+    public static List<QuestEnum.Quest_Normal> getClearedEnumList(UUID uuid) {
         var logger = QuestMC.getInstance().getLogger();
         try {
             Statement statement = connection.createStatement();
@@ -236,7 +236,7 @@ public class SQLManager {
             statement.executeUpdate("USE " + SQLData.getDATABASE_NAME());
             String query = "SELECT " + column_quests_cleared + " FROM " + tableName + " WHERE " + column_uuid + " = ?";
             PreparedStatement ps = connection.prepareStatement(query);
-            ps.setString(1, uuid);
+            ps.setString(1, uuid.toString());
 
             ResultSet resultSet = ps.executeQuery();
 
