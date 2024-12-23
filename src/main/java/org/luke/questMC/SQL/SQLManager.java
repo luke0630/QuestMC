@@ -94,7 +94,7 @@ public class SQLManager {
         }
     }
 
-    public static String LoadProgressData(QuestEnum.Quest_Normal type) {
+    public static JSONObject LoadProgressData(QuestEnum.Quest_Normal type) {
         try {
             Statement statement = connection.createStatement();
 
@@ -106,7 +106,7 @@ public class SQLManager {
             ResultSet resultSet = ps.executeQuery();
 
             if (resultSet.next()) {
-                return resultSet.getString(column_quests_cleared);
+                return new JSONObject(resultSet.getString(progress_column_data));
             }
 
             resultSet.close();
