@@ -212,13 +212,24 @@ public class SQLManager {
                     jsonObj = new JSONArray(result);
                 }
 
-                jsonObj.put(quest.name());
 
-                String updateQuery = "UPDATE "+ tableName +" SET "+ column_quests_cleared +" = ? WHERE "+ column_uuid +" = ?;";
-                PreparedStatement updatePs = connection.prepareStatement(updateQuery);
-                updatePs.setString(1, String.valueOf(jsonObj));
-                updatePs.setString(2, uuid);
-                updatePs.executeUpdate();
+                boolean alreadyContains = false;
+                for (int i = 0; i < jsonObj.length(); i++) {
+                    if (jsonObj.getString(i).equals(quest.name())) {
+                        alreadyContains = true;
+                        break;
+                    }
+                }
+
+                if(!alreadyContains) {
+                    jsonObj.put(quest.name());
+
+                    String updateQuery = "UPDATE "+ tableName +" SET "+ column_quests_cleared +" = ? WHERE "+ column_uuid +" = ?;";
+                    PreparedStatement updatePs = connection.prepareStatement(updateQuery);
+                    updatePs.setString(1, String.valueOf(jsonObj));
+                    updatePs.setString(2, uuid);
+                    updatePs.executeUpdate();
+                }
             } else {
                 addAndUpdateQuestData(UUID.fromString(uuid), List.of(quest));
             }
