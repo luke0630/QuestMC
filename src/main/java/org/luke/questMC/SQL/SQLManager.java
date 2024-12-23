@@ -17,6 +17,7 @@ public class SQLManager {
     static final String tableName = "playerQuestData";
     final static String column_uuid = "minecraft_uuid";
     static final String column_quests_cleared = "quests_cleared";
+    static final String column_quest_current = "quest_current";
 
     static final String progress_tableName = "questProgressData";
     final static String progress_column_type = "type";
@@ -51,6 +52,7 @@ public class SQLManager {
             String createTable = "CREATE TABLE IF NOT EXISTS " + tableName + " ( " +
                     column_uuid + " VARCHAR(50) NOT NULL, " +
                     column_quests_cleared + " JSON NULL," +
+                    column_quest_current + " VARCHAR(64) NULL," +
                     " PRIMARY KEY ( " + column_uuid + " )" +
                     " );";
             executes.add(createTable);
