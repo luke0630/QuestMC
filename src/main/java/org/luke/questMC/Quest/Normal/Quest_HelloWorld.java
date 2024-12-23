@@ -102,6 +102,7 @@ public class Quest_HelloWorld extends QuestBase {
 
 
         if(currentDistance <= 0) {
+            player.sendActionBar(Component.text(" "));
             complete(player);
         }
     }
