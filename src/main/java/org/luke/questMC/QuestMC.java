@@ -37,7 +37,7 @@ public final class QuestMC extends JavaPlugin implements Listener {
         manager = new YakisobaGUILib<>(this, List.of(
                 new List_Quests(),
                 new List_QuestDetails(),
-                new List_ClearedQuests(),
+                new List_CompletedQuests(),
 
                 new QuestHome()
         ));
