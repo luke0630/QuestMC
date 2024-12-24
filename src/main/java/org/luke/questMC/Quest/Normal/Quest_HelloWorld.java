@@ -58,7 +58,6 @@ public class Quest_HelloWorld extends QuestBase {
     @Override
     public void LoadJson(JSONObject json) {
         for(var key : json.keySet()) {
-            System.out.println(key);
             Double progress = json.getDouble(key);
             walkedDistance.put(UUID.fromString(key), progress);
         }
