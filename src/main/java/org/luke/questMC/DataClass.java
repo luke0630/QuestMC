@@ -11,5 +11,5 @@ import java.util.Map;
 public class DataClass {
     private Map<Player, QuestDetails> openQuestDetails = new HashMap<>();
 
-    public record QuestDetails(QuestEnum.Quest_Normal type, boolean from_home) { }
+    public record QuestDetails(QuestEnum.Quest_Normal type, Enum<?> backGUI) { }
 }
