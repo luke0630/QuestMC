@@ -46,7 +46,7 @@ public class List_CompletedQuests extends ListGUIAbstract<GUITypes.ListGUIEnum> 
 
                 LocalDateTime date = SQLManager.getCompletedDate(player.getUniqueId(), type);
                 if(date != null) {
-                    addLore.add("&c&l初達成日: "+ date.getYear() +"-"+ date.getMonthValue() +"-"+ date.getMinute() +"-"+ date.getHour() +":" + date.getMinute());
+                    addLore.add("&c&l初達成日: "+ date.getYear() +"-"+ date.getMonthValue() +"-"+ date.getMinute() +"  "+ date.getHour() +":" + date.getMinute());
                 }
                 setLore(item, addLore);
 
