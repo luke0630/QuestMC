@@ -39,6 +39,12 @@ public class List_ClearedQuests extends ListGUIAbstract<GUITypes.ListGUIEnum> {
 
                 addLore.add("&c&lこのクエストはすでにクリア済みです。");
                 addLore.add("&cクリックして詳細を確認・もう一度クエストを開始する");
+                addLore.add("&c&lこのクエストはすでに達成済みです。");
+
+                LocalDateTime date = SQLManager.getCompletedDate(player.getUniqueId(), type);
+                if(date != null) {
+                    addLore.add("&c&l初達成日: "+ date.getYear() +"-"+ date.getMonthValue() +"-"+ date.getMinute() +"-"+ date.getHour() +":" + date.getMinute());
+                }
                 setLore(item, addLore);
 
                 items.add(item);
