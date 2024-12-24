@@ -7,6 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.luke.questMC.Command.CommandManager;
 import org.luke.questMC.Event.EventManager;
 import org.luke.questMC.GUI.*;
+import org.luke.questMC.Quest.Normal.Quest_CraftTable_CreateAndPut;
 import org.luke.questMC.Quest.Normal.Quest_HelloWorld;
 import org.luke.questMC.QuestManager.QuestBase;
 import org.luke.questMC.QuestManager.QuestEnum;
@@ -56,7 +57,12 @@ public final class QuestMC extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(this, this);
         getServer().getPluginManager().registerEvents(new EventManager(), this);
 
-        QuestManager.registerQuest(new Quest_HelloWorld());
+        QuestManager.registerQuest(
+            List.of(
+                new Quest_HelloWorld(),
+                new Quest_CraftTable_CreateAndPut()
+            )
+        );
 
         LoadAllProgressData();
         LoadProgressData();
