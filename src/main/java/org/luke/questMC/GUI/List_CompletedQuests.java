@@ -13,6 +13,7 @@ import org.luke.questMC.SQL.SQLManager;
 import org.luke.yakisobaGUILib.Abstract.ListGUIAbstract;
 import org.luke.yakisobaGUILib.CustomRunnable;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,7 +65,12 @@ public class List_CompletedQuests extends ListGUIAbstract<GUITypes.ListGUIEnum> 
 
     @Override
     public CustomRunnable.InventoryIndexRunnable whenClickContent() {
-        return null;
+        return (InventoryClickEvent event, Integer index) -> {
+            Player player = (Player) event.getWhoClicked();
+
+            QuestMC.getGuiManager().getOpenQuestDetails().put(player, new DataClass.QuestDetails(quests.get(index).getType(), getType()));
+            QuestMC.getManager().OpenListGUI(player, GUITypes.ListGUIEnum.Quest_Detail);
+        };
     }
 
     @Override
