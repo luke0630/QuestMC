@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.HandlerList;
 import org.luke.questMC.QuestMC;
 import org.luke.questMC.SQL.SQLManager;
 
@@ -55,7 +54,7 @@ public class QuestManager {
     }
 
     public void addClearedQuest(UUID uuid, QuestEnum.Quest_Normal questNormal) {
-        SQLManager.addClearedEnum(uuid.toString(), questNormal);
+        SQLManager.addCompletedType(uuid.toString(), questNormal);
     }
 
     // クエストを開始
