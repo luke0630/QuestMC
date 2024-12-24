@@ -93,7 +93,7 @@ public class QuestHome extends GUIAbstract<GUITypes.GUIEnum> {
             case 4+2*9 -> QuestMC.getManager().OpenListGUI(player, GUITypes.ListGUIEnum.Quests);
             case 2+2*9 -> QuestMC.getManager().OpenListGUI(player, GUITypes.ListGUIEnum.Quests_Cleared);
             case 4 -> {
-                QuestMC.getGuiManager().getOpenQuestDetails().put(player, new DataClass.QuestDetails(quest.getType(), true));
+                QuestMC.getGuiManager().getOpenQuestDetails().put(player, new DataClass.QuestDetails(quest.getType(), getType()));
                 QuestMC.getManager().OpenListGUI(player, GUITypes.ListGUIEnum.Quest_Detail);
             }
         }
