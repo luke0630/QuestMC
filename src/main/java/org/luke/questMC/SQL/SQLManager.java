@@ -19,7 +19,7 @@ public class SQLManager {
     static Connection connection = null;
     static final String tableName = "playerQuestData";
     final static String column_uuid = "minecraft_uuid";
-    static final String column_quests_cleared = "quests_cleared";
+    static final String column_quests_completed = "quests_completed";
     static final String column_quest_current = "quest_current";
 
     static final String progress_tableName = "questProgressData";
@@ -86,7 +86,7 @@ public class SQLManager {
 
             String createTable = "CREATE TABLE IF NOT EXISTS " + tableName + " ( " +
                     column_uuid + " UUID NOT NULL, " +
-                    column_quests_cleared + " JSON NULL," +
+                    column_quests_completed + " JSON NULL," +
                     column_quest_current + " VARCHAR(64) NULL," +
                     " PRIMARY KEY ( " + column_uuid + " )" +
                     " );";
@@ -177,9 +177,9 @@ public class SQLManager {
             JSONArray obj = new JSONArray(string_quests);
 
             PreparedStatement ps = GetPrepareStatement(
-                    "INSERT INTO " + tableName + " (" + column_uuid + ", " + column_quests_cleared + ") " +
+                    "INSERT INTO " + tableName + " (" + column_uuid + ", " + column_quests_completed + ") " +
                     "VALUES (?, ?) " +
-                    "ON DUPLICATE KEY UPDATE " + column_quests_cleared + " = VALUES(" + column_quests_cleared + ")"
+                    "ON DUPLICATE KEY UPDATE " + column_quests_completed + " = VALUES(" + column_quests_completed + ")"
             );
             ps.setString(1, uuid);
             ps.setString(2, String.valueOf(obj));
@@ -209,19 +209,19 @@ public class SQLManager {
         }
     }
 
-    public static void addClearedEnum(String uuid, QuestEnum.Quest_Normal quest) {
+    public static void addCompletedType(String uuid, QuestEnum.Quest_Normal quest) {
         try {
             ExecuteUpdate("USE " + SQLData.getDATABASE_NAME());
             PreparedStatement ps = GetPrepareStatement(
-                    "SELECT " + column_quests_cleared + " FROM " + tableName + " WHERE " + column_uuid + " = ?"
+                    "SELECT " + column_quests_completed + " FROM " + tableName + " WHERE " + column_uuid + " = ?"
             );
             ps.setString(1, uuid);
 
             ResultSet resultSet = ps.executeQuery();
 
             if (resultSet.next()) {
-                String result = resultSet.getString(column_quests_cleared);
-                JSONArray jsonObj = new JSONArray();
+                String result = resultSet.getString(column_quests_completed);
+                JSONObject jsonObject = new JSONObject();
                 if(result != null) {
                     jsonObj = new JSONArray(result);
                 }
@@ -244,20 +244,54 @@ public class SQLManager {
         }
     }
 
-    public static List<QuestEnum.Quest_Normal> getClearedEnumList(UUID uuid) {
+    public static LocalDateTime getCompletedDate(UUID uuid, QuestEnum.Quest_Normal quest) {
+        try {
+            ExecuteUpdate("USE " + SQLData.getDATABASE_NAME());
+
+            PreparedStatement ps = GetPrepareStatement(
+                    "SELECT " + column_quests_completed + " FROM " + tableName + " WHERE " + column_uuid + " = ?"
+            );
+            ps.setString(1, uuid.toString());
+
+            ResultSet resultSet = ps.executeQuery();
+            if(resultSet.next()) {
+                String result = resultSet.getString(column_quests_completed);
+                if(result == null) return null;
+
+                JSONObject jsonObject = new JSONObject(result);
+
+                String date = jsonObject.getString(quest.name());
+                String[] splitDate = date.split("-");
+
+                int year = Integer.parseInt(splitDate[0]);
+                int month = Integer.parseInt(splitDate[1]);
+                int day = Integer.parseInt(splitDate[2]);
+                int hour = Integer.parseInt(splitDate[3]);
+                int minute = Integer.parseInt(splitDate[4]);
+
+                return LocalDateTime.of(year, month, day, hour, minute);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+
+    public static List<QuestEnum.Quest_Normal> getCompletedQuestList(UUID uuid) {
         var logger = QuestMC.getInstance().getLogger();
         try {
             ExecuteUpdate("USE " + SQLData.getDATABASE_NAME());
 
             PreparedStatement ps = GetPrepareStatement(
-                    "SELECT " + column_quests_cleared + " FROM " + tableName + " WHERE " + column_uuid + " = ?"
+                    "SELECT " + column_quests_completed + " FROM " + tableName + " WHERE " + column_uuid + " = ?"
             );
             ps.setString(1, uuid.toString());
 
             ResultSet resultSet = ps.executeQuery();
 
             if (resultSet.next()) {
-                String result = resultSet.getString(column_quests_cleared);
+                String result = resultSet.getString(column_quests_completed);
                 if(result == null) return null;
 
                 JSONArray jsonObj = new JSONArray(result);
