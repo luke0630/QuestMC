@@ -7,8 +7,10 @@ import org.luke.questMC.QuestManager.QuestEnum;
 import org.luke.questMC.QuestManager.QuestManager;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class SQLManager {
@@ -141,7 +143,7 @@ public class SQLManager {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return null;
+        return new JSONObject();
     }
     public static void LoadProgressData() {
         try {
@@ -223,16 +225,24 @@ public class SQLManager {
                 String result = resultSet.getString(column_quests_completed);
                 JSONObject jsonObject = new JSONObject();
                 if(result != null) {
-                    jsonObj = new JSONArray(result);
+                    jsonObject = new JSONObject(result);
                 }
 
-                if (!jsonObj.toList().contains(quest.name())) {
-                    jsonObj.put(quest.name());
+                Map<String, Object> jsonMap = jsonObject.toMap();
+                if(jsonMap.containsKey(uuid)) {
+                    String date = (String) jsonMap.get(uuid);
+                    System.out.println("テスト: " + date);
+                } else {
+                    LocalDateTime nowDate = LocalDateTime.now();
+
+                    //toTimeFormat
+                    String resultTime = nowDate.getYear() + "-"+ nowDate.getMonthValue() +"-" + nowDate.getDayOfMonth() +"-"+ nowDate.getHour() +"-"+ nowDate.getMinute() ;
+                    jsonObject.put(quest.name(), resultTime);
 
                     PreparedStatement updatePs = GetPrepareStatement(
-                            "UPDATE " + tableName + " SET " + column_quests_cleared + " = ? WHERE " + column_uuid + " = ?;"
+                        "UPDATE " + tableName + " SET " + column_quests_completed + " = ? WHERE " + column_uuid + " = ?;"
                     );
-                    updatePs.setString(1, jsonObj.toString());
+                    updatePs.setString(1, jsonObject.toString());
                     updatePs.setString(2, uuid);
                     updatePs.executeUpdate();
                 }
@@ -294,10 +304,11 @@ public class SQLManager {
                 String result = resultSet.getString(column_quests_completed);
                 if(result == null) return null;
 
-                JSONArray jsonObj = new JSONArray(result);
+                JSONObject jsonObj = new JSONObject(result);
                 List<QuestEnum.Quest_Normal> types = new ArrayList<>();
-                for (int i = 0; i < jsonObj.length(); i++) {
-                    String string_type = jsonObj.getString(i);
+
+                for (Map.Entry<String, Object> entry : jsonObj.toMap().entrySet()) {
+                    String string_type = entry.getKey();
 
                     try {
                         QuestEnum.Quest_Normal type = QuestEnum.Quest_Normal.valueOf(string_type);
@@ -315,7 +326,7 @@ public class SQLManager {
             resultSet.close();
             ps.close();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            return null;
         }
         return null;
     }
