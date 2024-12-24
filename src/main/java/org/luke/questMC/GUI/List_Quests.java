@@ -25,7 +25,7 @@ public class List_Quests extends ListGUIAbstract<GUITypes.ListGUIEnum> {
 
     @Override
     public String getGUITitle() {
-        return "クエスト一覧 (未クリア)";
+        return "クエスト一覧 (未達成)";
     }
 
     @Override
@@ -52,9 +52,9 @@ public class List_Quests extends ListGUIAbstract<GUITypes.ListGUIEnum> {
 
                 items.add(item);
             } else {
-                List<QuestEnum.Quest_Normal> cleared = SQLManager.getClearedEnumList(uuid);
+                List<QuestEnum.Quest_Normal> completedQuests = SQLManager.getCompletedQuestList(uuid);
 
-                if(cleared != null && cleared.contains(quest.getType())) continue; //クリア済みは載せない
+                if(completedQuests != null && completedQuests.contains(quest.getType())) continue; //達成済みは載せない
                 var item = QuestUtility.getIcon(quest);
 
                 var result = new ArrayList<String>();
