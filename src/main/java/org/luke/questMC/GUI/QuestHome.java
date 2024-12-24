@@ -9,6 +9,7 @@ import org.luke.questMC.QuestMC;
 import org.luke.questMC.QuestManager.QuestBase;
 import org.luke.questMC.QuestManager.QuestManager;
 import org.luke.questMC.QuestManager.QuestUtility;
+import org.luke.questMC.SQL.SQLManager;
 import org.luke.takoyakiLibrary.TakoUtility;
 import org.luke.yakisobaGUILib.Abstract.GUIAbstract;
 
@@ -59,15 +60,27 @@ public class QuestHome extends GUIAbstract<GUITypes.GUIEnum> {
             inv.setItem(4, item);
         }
 
-        var start = getItem(Material.COMPASS, "&aクエスト一覧 (未クリア) &f| &cクエストを開始する");
+        var completedQuests = SQLManager.getCompletedQuestList(player.getUniqueId());
+
+        int notCompleted = QuestManager.getQuests().size();
+        int completed = 0;
+        if(completedQuests != null && !completedQuests.isEmpty()) {
+            completed = completedQuests.size();
+            notCompleted -= completed;
+        }
+
+        var start = getItem(Material.COMPASS, "&aクエスト一覧 (未達成) &f| &cクエストを開始する");
         setLore(start, List.of(
-                "&c&lクリックして一覧を見る"
+                "&c&lクリックして一覧を見る",
+                "&a&l*"+ notCompleted +"個の未達成のクエスト"
         ));
         inv.setItem(4+2*9, start);
 
-        var cleared = getItem(Material.REPEATER, "&aクリア済みクエスト一覧");
+        var cleared = getItem(Material.REPEATER, "&a達成済みクエスト一覧");
+
         setLore(cleared, List.of(
-                "&c&lクリックして一覧を見る"
+                "&c&lクリックして一覧を見る",
+                "&a&l*"+ completed +"個の達成済みのクエスト"
         ));
         inv.setItem(2+2*9, cleared);
         return inv;
