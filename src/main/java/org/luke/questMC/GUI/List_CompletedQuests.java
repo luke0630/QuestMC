@@ -37,7 +37,6 @@ public class List_ClearedQuests extends ListGUIAbstract<GUITypes.ListGUIEnum> {
                     addLore.addAll(item.getLore());
                 }
 
-                addLore.add("&c&lこのクエストはすでにクリア済みです。");
                 addLore.add("&cクリックして詳細を確認・もう一度クエストを開始する");
                 addLore.add("&c&lこのクエストはすでに達成済みです。");
 
