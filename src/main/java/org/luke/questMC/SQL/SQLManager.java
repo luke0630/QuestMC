@@ -39,9 +39,26 @@ public class SQLManager {
         }
     }
 
+    public static Connection getConnection() {
+        //Connectionがタイムアウトしてclosedされていて接続できないのを防ぐためこれを使用する
+        try {
+            if(connection != null) {
+                if(connection.isClosed()) {
+                    ConnectionToDatabase(() -> {});
+                }
+            } else {
+                ConnectionToDatabase(() -> {});
+            }
+
+            return connection;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void ExecuteUpdate(String command) {
         try {
-            Statement statement = connection.createStatement();
+            Statement statement = getConnection().createStatement();
             statement.executeUpdate(command);
 
             statement.close();
@@ -51,7 +68,7 @@ public class SQLManager {
     }
     public static PreparedStatement GetPrepareStatement(String  query) {
         try {
-            return connection.prepareStatement(query);
+            return getConnection().prepareStatement(query);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -63,8 +80,6 @@ public class SQLManager {
         List<String> executes = new ArrayList<>();
 
         try {
-            Statement statement = connection.createStatement();
-
             executes.add("CREATE DATABASE IF NOT EXISTS " + dbName);
 
             executes.add("USE " + dbName);
@@ -85,7 +100,7 @@ public class SQLManager {
             executes.add(createTable_progress);
 
             for (String execute : executes) {
-                statement.executeUpdate(execute);
+                ExecuteUpdate(execute);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
