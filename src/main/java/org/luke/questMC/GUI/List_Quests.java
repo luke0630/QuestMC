@@ -81,7 +81,7 @@ public class List_Quests extends ListGUIAbstract<GUITypes.ListGUIEnum> {
         return (InventoryClickEvent event, Integer index) -> {
             Player player = (Player) event.getWhoClicked();
 
-            QuestMC.getGuiManager().getOpenQuestDetails().put(player, new DataClass.QuestDetails(quests.get(index).getType(), false));
+            QuestMC.getGuiManager().getOpenQuestDetails().put(player, new DataClass.QuestDetails(quests.get(index).getType(), getType()));
             QuestMC.getManager().OpenListGUI(player, GUITypes.ListGUIEnum.Quest_Detail);
         };
     }
