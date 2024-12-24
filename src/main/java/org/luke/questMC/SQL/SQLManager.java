@@ -229,10 +229,7 @@ public class SQLManager {
                 }
 
                 Map<String, Object> jsonMap = jsonObject.toMap();
-                if(jsonMap.containsKey(uuid)) {
-                    String date = (String) jsonMap.get(uuid);
-                    System.out.println("テスト: " + date);
-                } else {
+                if(!jsonMap.containsKey(quest.name())) {
                     LocalDateTime nowDate = LocalDateTime.now();
 
                     //toTimeFormat
