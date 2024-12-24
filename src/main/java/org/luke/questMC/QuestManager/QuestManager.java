@@ -38,9 +38,11 @@ public class QuestManager {
         info.progressInfo = progressInfo;
     }
 
-    public void registerQuest(QuestBase quest) {
-        quests.put(quest.getType(), quest);
-        Bukkit.getPluginManager().registerEvents(quest, QuestMC.getInstance());
+    public void registerQuest(List<QuestBase> questList) {
+        for(QuestBase quest : questList) {
+            quests.put(quest.getType(), quest);
+            Bukkit.getPluginManager().registerEvents(quest, QuestMC.getInstance());
+        }
     }
 
     // クエストを取得
