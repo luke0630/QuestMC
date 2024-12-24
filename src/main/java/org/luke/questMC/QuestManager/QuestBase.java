@@ -47,7 +47,6 @@ public abstract class QuestBase implements Listener {
         player.sendMessage(toColor("&a&lクエストを達成しました: " + getQuestName()));
         player.sendMessage(toColor("&a以下の報酬が渡されました。"));
 
-
         if(getRewardItem() != null) {
             Inventory playerInv = player.getInventory();
             for(ItemStack itemStack : getRewardItem()) {
