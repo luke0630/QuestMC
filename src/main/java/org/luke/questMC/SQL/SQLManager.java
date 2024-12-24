@@ -34,8 +34,8 @@ public class SQLManager {
             connection = DriverManager.getConnection(url, SQLData.getUSERNAME(), SQLData.getPASSWORD());
 
             result.onComplete();
-        } catch (Exception ignored) {
-
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
