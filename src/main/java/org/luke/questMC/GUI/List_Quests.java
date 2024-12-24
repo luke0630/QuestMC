@@ -48,6 +48,7 @@ public class List_Quests extends ListGUIAbstract<GUITypes.ListGUIEnum> {
 
                 setLore(item, result);
                 items.add(item);
+                quests.add(quest);
             }
         }
         return items;
