@@ -75,10 +75,15 @@ public class List_QuestDetails extends ListGUIAbstract<GUITypes.ListGUIEnum> {
     @Override
     public CustomRunnable.InventoryRunnable whenClickBack() {
         return (InventoryClickEvent event) -> {
-            if(QuestMC.getGuiManager().getOpenQuestDetails().get(player).from_home()) {
-                QuestMC.getManager().OpenGUI(player, GUITypes.GUIEnum.Home);
-            } else {
-                QuestMC.getManager().OpenListGUI(player, GUITypes.ListGUIEnum.Quests);
+            Enum<?> backGUI = QuestMC.getGuiManager().getOpenQuestDetails().get(player).backGUI();
+            if(backGUI != null) {
+                if(backGUI instanceof GUITypes.GUIEnum type) {
+                    QuestMC.getManager().OpenGUI(player, type);
+                } else if(backGUI instanceof GUITypes.ListGUIEnum type) {
+                    QuestMC.getManager().OpenListGUI(player, type);
+                } else {
+                    System.out.println( backGUI.name() + " はGUIのENUMではありません。" );
+                }
             }
         };
     }
