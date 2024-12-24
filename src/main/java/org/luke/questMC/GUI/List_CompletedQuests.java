@@ -3,6 +3,7 @@ package org.luke.questMC.GUI;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.luke.questMC.DataClass;
 import org.luke.questMC.QuestMC;
 import org.luke.questMC.QuestManager.QuestBase;
 import org.luke.questMC.QuestManager.QuestEnum;
@@ -17,15 +18,17 @@ import java.util.List;
 
 import static org.luke.takoyakiLibrary.TakoUtility.setLore;
 
-public class List_ClearedQuests extends ListGUIAbstract<GUITypes.ListGUIEnum> {
+public class List_CompletedQuests extends ListGUIAbstract<GUITypes.ListGUIEnum> {
+    List<QuestBase> quests = new ArrayList<>();
+
     @Override
     public String getGUITitle() {
-        return "クリア済みクエスト一覧";
+        return "達成済みクエスト一覧";
     }
 
     @Override
     public List<ItemStack> getItemList() {
-        List<QuestEnum.Quest_Normal> clearedList = SQLManager.getClearedEnumList(player.getUniqueId());
+        List<QuestEnum.Quest_Normal> clearedList = SQLManager.getCompletedQuestList(player.getUniqueId());
         if(clearedList != null && !clearedList.isEmpty()) {
             List<ItemStack> items = new ArrayList<>();
             for(QuestEnum.Quest_Normal type : clearedList) {
@@ -47,6 +50,7 @@ public class List_ClearedQuests extends ListGUIAbstract<GUITypes.ListGUIEnum> {
                 setLore(item, addLore);
 
                 items.add(item);
+                quests.add(QuestManager.getQuest(type));
             }
             return items;
         }
