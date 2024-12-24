@@ -32,26 +32,8 @@ public class List_Quests extends ListGUIAbstract<GUITypes.ListGUIEnum> {
     public List<ItemStack> getItemList() {
         List<ItemStack> items = new ArrayList<>();
         for(var quest : QuestManager.getQuests().values()) {
-            quests.add(quest);
-
             UUID uuid = player.getUniqueId();
-            if(quest.isInProgress(player)) {
-                var item = QuestUtility.getIcon(quest);
-                var result = new ArrayList<String>();
-                result.add("&f" + QuestManager.getQuest(QuestManager.getProgressInfo().get(uuid).getType()).getQuestName());
-                result.addAll( item.getLore() );
-                result.add("&cクリックして詳細を確認");
-
-                item.setType(Material.BARRIER);
-
-                var meta = item.getItemMeta();
-                meta.setDisplayName(toColor("&c&l現在進行中のクエスト"));
-                item.setItemMeta(meta);
-
-                setLore(item, result);
-
-                items.add(item);
-            } else {
+            if(!quest.isInProgress(player)) {
                 List<QuestEnum.Quest_Normal> completedQuests = SQLManager.getCompletedQuestList(uuid);
 
                 if(completedQuests != null && completedQuests.contains(quest.getType())) continue; //達成済みは載せない
