@@ -33,6 +33,7 @@ public abstract class QuestBase implements Listener {
     public abstract RewardInfo getRewardCustom();
     public abstract String SaveJson();
     public abstract void LoadJson(JSONObject json);
+    public abstract List<String> getProgressInfo(Player player);
     public abstract QuestEnum.Quest_Normal getType();
 
     // クエスト完了 (基本動作)
