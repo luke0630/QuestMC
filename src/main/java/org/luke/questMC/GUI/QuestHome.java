@@ -101,6 +101,12 @@ public class QuestHome extends GUIAbstract<GUITypes.GUIEnum> {
             case 4+2*9 -> QuestMC.getManager().OpenListGUI(player, GUITypes.ListGUIEnum.Quests);
             case 2+2*9 -> QuestMC.getManager().OpenListGUI(player, GUITypes.ListGUIEnum.Quests_Cleared);
             case 4 -> {
+                if(inventoryClickEvent.isRightClick()) {
+                    var currentType = QuestManager.getProgressInfo().get(player.getUniqueId()).getType();
+                    QuestManager.getQuest(currentType).onComplete(player);
+                    QuestManager.getProgressInfo().remove(player.getUniqueId());
+                    return;
+                }
                 QuestMC.getGuiManager().getOpenQuestDetails().put(player, new DataClass.QuestDetails(quest.getType(), getType()));
                 QuestMC.getManager().OpenListGUI(player, GUITypes.ListGUIEnum.Quest_Detail);
             }
