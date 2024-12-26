@@ -66,9 +66,12 @@ public class QuestManager {
         if (quest != null) {
             if(!progressInfo.containsKey(uuid)) {
                 progressInfo.put(uuid, new QuestProgressInfo(questType));
+
+                player.sendMessage(toColor("&a&lクエストを開始しました: " + quest.getQuestName()));
+
                 quest.onStart(player);
                 SQLManager.updateCurrentQuest(uuid, questType);
-                player.sendMessage(toColor("&a&lクエストを開始しました: " + quest.getQuestName()));
+                UpdateProgressInfo(player, quest.getProgressInfo(player));
             } else {
                 if(progressInfo.get(uuid).type == questType) {
                     player.sendMessage(toColor("&cそのクエストはすでに開始しています。"));
