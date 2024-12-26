@@ -172,11 +172,7 @@ public class Quest_CraftTable_CreateAndPut extends QuestBase {
             boolean completed_craft_table = result >= complete_count;
 
             progressInfo.put(player.getUniqueId(), new Progress(craft_progress.CREATE_CRAFT_TABLE, result));
-            player.sendMessage(TakoUtility.toColor("&a現在の個数: " + result + " / あと"+ complete_count +"個"));
-            QuestManager.UpdateProgressInfo(player, List.of(
-                    "&aクラフトした作業台の現在の個数: " + result + "/"+ complete_count +"個"
-            ));
-
+            player.sendMessage(TakoUtility.toColor("&a現在クラフトした作業台の個数: " + result + "/"+ complete_count +"個"));
             if(completed_craft_table) {
                 player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 1 ,1);
                 player.sendMessage(toColor("&c次は作業台を" + craft_progress.PUT_CRAFT_TABLE.getCompleteCount() +"個設置してください。"));
