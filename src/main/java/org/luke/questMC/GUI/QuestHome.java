@@ -49,8 +49,11 @@ public class QuestHome extends GUIAbstract<GUITypes.GUIEnum> {
             result.add("&c&l現在の進行状況");
 
             //初期では色付けする
-            for(var list : QuestManager.getProgressInfo().get(uuid).getProgressInfo()) {
-                result.add("&a" + list);
+            var progressInfoList = QuestManager.getProgressInfo().get(uuid).getProgressInfo();
+            if(progressInfoList != null && !progressInfoList.isEmpty()) {
+                for(var list : progressInfoList) {
+                    result.add("&a" + list);
+                }
             }
 
             result.add("&c&l----------------------------");
