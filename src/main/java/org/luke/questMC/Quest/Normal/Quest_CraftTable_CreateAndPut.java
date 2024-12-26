@@ -142,7 +142,7 @@ public class Quest_CraftTable_CreateAndPut extends QuestBase {
     }
 
     @Override
-    protected void onComplete(Player player) {
+    public void onComplete(Player player) {
         progressInfo.remove(player.getUniqueId());
     }
 
@@ -178,7 +178,6 @@ public class Quest_CraftTable_CreateAndPut extends QuestBase {
             ));
 
             if(completed_craft_table) {
-                player.sendMessage(toColor("&c次は作業台を" + craft_progress.PUT_CRAFT_TABLE.getCompleteCount() +"個設置してください"));
                 player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 1 ,1);
                 player.sendMessage(toColor("&c次は作業台を" + craft_progress.PUT_CRAFT_TABLE.getCompleteCount() +"個設置してください。"));
                 progressInfo.put(player.getUniqueId(), new Progress(craft_progress.PUT_CRAFT_TABLE, 0));
