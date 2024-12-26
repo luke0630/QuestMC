@@ -63,7 +63,7 @@ public abstract class QuestBase implements Listener {
         displayTo(player , "emerald" , getQuestName(), Toast.Style.GOAL);
     }
 
-    protected abstract void onComplete(Player player);
+    public abstract void onComplete(Player player);
 
     // クエスト進行中か確認
     public boolean isInProgress(Player player) {
