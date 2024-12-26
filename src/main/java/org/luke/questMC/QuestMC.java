@@ -84,10 +84,14 @@ public final class QuestMC extends JavaPlugin implements Listener {
     }
 
     private void LoadAllProgressData() {
-        for(QuestBase quest :  QuestManager.getQuests().values()) {
+        for(QuestBase quest : QuestManager.getQuests().values()) {
             quest.LoadJson(
                     LoadProgressData(quest.getType())
             );
+            for(UUID uuid : QuestManager.getProgressInfo().keySet()) {
+                Player player = Bukkit.getPlayer(uuid);
+                SendFirstMessage(quest.getType(), player);
+            }
         }
     }
 }
