@@ -195,9 +195,6 @@ public class Quest_CraftTable_CreateAndPut extends QuestBase {
                 progressInfo.put(player.getUniqueId(), new Progress(craft_progress.PUT_CRAFT_TABLE, result));
 
                 player.sendMessage(TakoUtility.toColor("&a現在設置した作業台の個数: " + result + "/"+ complete_count +"個"));
-                QuestManager.UpdateProgressInfo(player, List.of(
-                        "&a設置した作業台の個数: " + result + "/"+ complete_count +"個"
-                ));
 
                 if(result >= craft_progress.PUT_CRAFT_TABLE.getCompleteCount()) {
                     complete(player);
