@@ -64,6 +64,19 @@ public class Quest_HelloWorld extends QuestBase {
     }
 
     @Override
+    public List<String> getProgressInfo(Player player) {
+        if(walkedDistance.containsKey(player.getUniqueId())) {
+            double currentDistance = walkedDistance.get(player.getUniqueId());
+            return List.of(
+                    "残り:  " + (int)currentDistance + "メートル"
+            );
+        }
+        return List.of(
+            "残り:  " + completionCondition + "メートル"
+        );
+    }
+
+    @Override
     public List<ItemStack> getRewardItem() {
         var oak = getItem(Material.OAK_LOG, "");
         oak.setAmount(10);
@@ -95,10 +108,6 @@ public class Quest_HelloWorld extends QuestBase {
         walkedDistance.put(uuid, currentDistance);
 
         player.sendActionBar(Component.text("残り:  " + (int)currentDistance + "メートル"));
-        QuestManager.UpdateProgressInfo(player, List.of(
-                "残り:  " + (int)currentDistance + "メートル"
-        ));
-
 
         if(currentDistance <= 0) {
             player.sendActionBar(Component.text(" "));
