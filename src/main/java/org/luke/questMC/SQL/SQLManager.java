@@ -145,7 +145,7 @@ public class SQLManager {
         }
         return new JSONObject();
     }
-    public static void LoadProgressData() {
+    public static void LoadProgressData(MyCallback callback) {
         try {
             ExecuteUpdate("USE " + SQLData.getDATABASE_NAME());
             PreparedStatement ps = GetPrepareStatement(
@@ -166,6 +166,8 @@ public class SQLManager {
             ps.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            callback.onComplete();
         }
     }
 
