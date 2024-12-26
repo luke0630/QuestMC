@@ -1,7 +1,9 @@
 package org.luke.questMC;
 
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.luke.questMC.Command.CommandManager;
@@ -16,11 +18,10 @@ import org.luke.questMC.SQL.SQLData;
 import org.luke.questMC.SQL.SQLManager;
 import org.luke.yakisobaGUILib.YakisobaGUILib;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 import static org.luke.questMC.SQL.SQLManager.*;
+import static org.luke.takoyakiLibrary.TakoUtility.toColor;
 
 public final class QuestMC extends JavaPlugin implements Listener {
     @Getter
