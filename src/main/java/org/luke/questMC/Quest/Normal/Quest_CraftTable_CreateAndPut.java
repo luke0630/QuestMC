@@ -163,10 +163,11 @@ public class Quest_CraftTable_CreateAndPut extends QuestBase {
         UUID uuid = player.getUniqueId();
 
         if(progressInfo.get(uuid).progress == craft_progress.CREATE_CRAFT_TABLE) {
+            int itemResultAmount = TakoUtility.getCraftedItemCount(event);
 
             final int complete_count = craft_progress.CREATE_CRAFT_TABLE.getCompleteCount();
 
-            int result = progressInfo.get(player.getUniqueId()).count + 1;
+            int result = progressInfo.get(player.getUniqueId()).count + itemResultAmount;
             boolean completed_craft_table = result >= complete_count;
 
             progressInfo.put(player.getUniqueId(), new Progress(craft_progress.CREATE_CRAFT_TABLE, result));
