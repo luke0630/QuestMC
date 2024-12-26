@@ -110,6 +110,32 @@ public class Quest_CraftTable_CreateAndPut extends QuestBase {
     }
 
     @Override
+    public List<String> getProgressInfo(Player player) {
+        UUID uuid = player.getUniqueId();
+        if(!progressInfo.containsKey(uuid)) return null;
+        if(progressInfo.get(uuid).progress == craft_progress.CREATE_CRAFT_TABLE) {
+            final int complete_count = craft_progress.CREATE_CRAFT_TABLE.getCompleteCount();
+            int result = progressInfo.get(player.getUniqueId()).count;
+
+            return List.of(
+                    "&6作業台を" + craft_progress.CREATE_CRAFT_TABLE.getCompleteCount() + "個クラフトしてください",
+                    "&aクラフトした作業台の個数: " + result + "/"+ complete_count +"個",
+                    "あと"+ (complete_count - result)  +"個 クラフトしてください"
+            );
+        } else if(progressInfo.get(uuid).progress == craft_progress.PUT_CRAFT_TABLE) {
+            final int complete_count = craft_progress.PUT_CRAFT_TABLE.getCompleteCount();
+            int result = progressInfo.get(player.getUniqueId()).count;
+
+            return List.of(
+                    "&6作業台を" + craft_progress.PUT_CRAFT_TABLE.getCompleteCount() + "個設置してください",
+                    "&a設置したした作業台の個数: " + result + "/"+ complete_count +"個",
+                    "あと"+ (complete_count - result)  +"個 設置してください"
+            );
+        }
+        return null;
+    }
+
+    @Override
     public QuestEnum.Quest_Normal getType() {
         return Master_of_Crafting_Table;
     }
