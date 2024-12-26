@@ -155,6 +155,11 @@ public class Quest_CraftTable_CreateAndPut extends QuestBase {
     @EventHandler
     public void onCraftItemEvent(CraftItemEvent event) {
         Player player = (Player) event.getWhoClicked();
+        ItemStack item = event.getRecipe().getResult();
+
+        if(!isInProgress(player)) return;
+        if(item.getType() != Material.CRAFTING_TABLE) return;
+
         UUID uuid = player.getUniqueId();
 
         if(progressInfo.get(uuid).progress == craft_progress.CREATE_CRAFT_TABLE) {
@@ -179,6 +184,9 @@ public class Quest_CraftTable_CreateAndPut extends QuestBase {
     @EventHandler
     public void onPlaceBlock(BlockPlaceEvent event) {
         Player player = event.getPlayer();
+
+        if(!isInProgress(player)) return;
+
         UUID uuid = player.getUniqueId();
         if(progressInfo.get(uuid).progress == craft_progress.PUT_CRAFT_TABLE) {
             if(event.getBlock().getType() == Material.CRAFTING_TABLE) {
