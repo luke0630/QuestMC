@@ -10,7 +10,6 @@ import org.bukkit.inventory.ItemStack;
 import org.json.JSONObject;
 import org.luke.questMC.QuestManager.QuestBase;
 import org.luke.questMC.QuestManager.QuestEnum;
-import org.luke.questMC.QuestManager.QuestManager;
 import org.luke.takoyakiLibrary.TakoUtility;
 
 import java.util.HashMap;
