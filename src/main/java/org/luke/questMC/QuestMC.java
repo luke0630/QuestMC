@@ -65,8 +65,7 @@ public final class QuestMC extends JavaPlugin implements Listener {
             )
         );
 
-        LoadAllProgressData();
-        LoadProgressData();
+        LoadProgressData(this::LoadAllProgressData);
     }
 
     @Override
