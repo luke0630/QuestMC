@@ -148,16 +148,7 @@ public class Quest_CraftTable_CreateAndPut extends QuestBase {
     @Override
     protected void onStart(Player player) {
         progressInfo.put(player.getUniqueId(), new Progress(craft_progress.CREATE_CRAFT_TABLE, 0));
-
-        UUID uuid = player.getUniqueId();
-        if(progressInfo.get(uuid).progress == craft_progress.CREATE_CRAFT_TABLE) {
-            final int complete_count = craft_progress.CREATE_CRAFT_TABLE.getCompleteCount();
-            int result = progressInfo.get(player.getUniqueId()).count + 1;
-
-            QuestManager.UpdateProgressInfo(player, List.of(
-                    "&aクラフトした作業台の現在の個数: " + result + "/"+ complete_count +"個"
-            ));
-        }
+        player.sendMessage(TakoUtility.toColor("&c&l作業台を二つクラフトしてください。"));
     }
 
     //Events
