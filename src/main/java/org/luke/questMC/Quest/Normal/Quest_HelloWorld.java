@@ -116,7 +116,7 @@ public class Quest_HelloWorld extends QuestBase {
     }
 
     @Override
-    protected void onComplete(Player player) {
+    public void onComplete(Player player) {
         walkedDistance.remove(player.getUniqueId());
     }
 
