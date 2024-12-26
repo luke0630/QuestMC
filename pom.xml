@@ -121,8 +121,7 @@
         <dependency>
             <groupId>com.github.luke0630</groupId>
             <artifactId>TakoyakiLibrary</artifactId>
-            <version>3.5</version>
-            <scope>compile</scope>
+            <version>3.6</version>
         </dependency>
         <dependency>
             <groupId>dev.dejvokep</groupId>
