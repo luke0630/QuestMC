@@ -36,6 +36,11 @@ public class QuestHome extends GUIAbstract<GUITypes.GUIEnum> {
 
         UUID uuid = player.getUniqueId();
         if(QuestManager.getProgressInfo().containsKey(uuid)) {
+            QuestManager.UpdateProgressInfo(
+                    player,
+                    QuestManager.getQuest( QuestManager.getProgressInfo().get(uuid).getType() ).getProgressInfo(player)
+            );
+
             var item = QuestUtility.getIcon(quest);
 
             var result = new ArrayList<String>();
