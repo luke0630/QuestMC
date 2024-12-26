@@ -1,6 +1,7 @@
 package org.luke.questMC.Quest.Normal;
 
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -178,6 +179,8 @@ public class Quest_CraftTable_CreateAndPut extends QuestBase {
 
             if(completed_craft_table) {
                 player.sendMessage(toColor("&c次は作業台を" + craft_progress.PUT_CRAFT_TABLE.getCompleteCount() +"個設置してください"));
+                player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 1 ,1);
+                player.sendMessage(toColor("&c次は作業台を" + craft_progress.PUT_CRAFT_TABLE.getCompleteCount() +"個設置してください。"));
                 progressInfo.put(player.getUniqueId(), new Progress(craft_progress.PUT_CRAFT_TABLE, 0));
             }
         }
