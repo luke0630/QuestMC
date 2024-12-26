@@ -94,4 +94,34 @@ public final class QuestMC extends JavaPlugin implements Listener {
             }
         }
     }
+
+    public static void SendFirstMessage(QuestEnum.Quest_Normal quest_type, Player player) {
+        Bukkit.getScheduler().runTaskLaterAsynchronously(QuestMC.getInstance(), () -> {
+            if(player == null) return;
+
+            UUID uuid = player.getUniqueId();
+            QuestBase quest = QuestManager.getQuest(quest_type);
+
+            if(!QuestManager.isProgressPlayer(uuid)) return;
+            if(QuestManager.getProgressInfo().get(uuid).getType() != quest.getType()) return;
+
+            List<String> progressInfo = quest.getProgressInfo(player);
+            QuestManager.UpdateProgressInfo(
+                    player,
+                    progressInfo
+            );
+
+            List<String> messageList = new ArrayList<>(List.of(
+                    "&e===================================",
+                    "&b現在クエストが進行中です。 クエスト: " + quest.getQuestName(),
+                    "&c&l-----進行状況-----"
+            ));
+            messageList.addAll(progressInfo);
+            messageList.add("&e===================================");
+
+            for(String message : messageList) {
+                player.sendMessage(toColor("&a"+message));
+            }
+        }, 2*20L);
+    }
 }
