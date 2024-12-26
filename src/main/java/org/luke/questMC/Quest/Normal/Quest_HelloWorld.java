@@ -119,4 +119,9 @@ public class Quest_HelloWorld extends QuestBase {
     protected void onComplete(Player player) {
         walkedDistance.remove(player.getUniqueId());
     }
+
+    @Override
+    protected void onStart(Player player) {
+        player.sendMessage(TakoUtility.toColor("&c&l" + completionCondition + "メートル歩いてください。"));
+    }
 }
