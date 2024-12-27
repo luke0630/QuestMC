@@ -4,7 +4,9 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.luke.questMC.DataClass;
+import org.luke.questMC.GUI.Confirm.ConfirmManager;
 import org.luke.questMC.QuestMC;
 import org.luke.questMC.QuestManager.QuestBase;
 import org.luke.questMC.QuestManager.QuestManager;
@@ -58,6 +60,7 @@ public class QuestHome extends GUIAbstract<GUITypes.GUIEnum> {
 
             result.add("&c&l----------------------------");
             result.add("&cクリックして詳細を確認");
+            result.add("&c右クリックで中断");
 
             var meta = item.getItemMeta();
             meta.setDisplayName(toColor("&c&l現在進行中のクエスト"));
@@ -102,9 +105,41 @@ public class QuestHome extends GUIAbstract<GUITypes.GUIEnum> {
             case 2+2*9 -> QuestMC.getManager().OpenListGUI(player, GUITypes.ListGUIEnum.Quests_Cleared);
             case 4 -> {
                 if(inventoryClickEvent.isRightClick()) {
-                    var currentType = QuestManager.getProgressInfo().get(player.getUniqueId()).getType();
-                    QuestManager.getQuest(currentType).onComplete(player);
-                    QuestManager.getProgressInfo().remove(player.getUniqueId());
+                    ItemStack item_stopQuest = getItem(Material.REDSTONE_BLOCK, "&c&l中断します");
+                    ItemStack item_cancelStopQuest = getItem(Material.BARRIER, "&a&l中断しません");
+
+                    QuestBase quest = QuestManager.getQuest( QuestManager.getProgressInfo().get(player.getUniqueId()).getType() );
+
+                    setLore(item_stopQuest, List.of(
+                            "&a---------------------------",
+                            "&c&l注意: これをクリックすると、",
+                            "&c&l進行中のクエストを中断します。",
+                            "&c&l進行状況はすべて消えます。",
+                            "&a&l-----進行中のクエスト-----",
+                            "&a" + quest.getQuestName()
+                    ));
+
+                    SQLManager.MyCallback stopQuest = () -> {
+                        var currentType = QuestManager.getProgressInfo().get(player.getUniqueId()).getType();
+                        QuestManager.getQuest(currentType).onComplete(player);
+                        QuestManager.getProgressInfo().remove(player.getUniqueId());
+                        QuestMC.getManager().OpenGUI(player, GUITypes.GUIEnum.Home);
+                        SQLManager.updateCurrentQuest(player.getUniqueId(), null);
+                        SQLManager.SaveProgressData(quest.getType(), quest.SaveJson());
+
+                        player.sendMessage(toColor("&c&l" + quest.getQuestName() + " を中断しました。"));
+                    };
+                    SQLManager.MyCallback cancelStopQuest = () -> {
+                        QuestMC.getManager().OpenGUI(player, GUITypes.GUIEnum.Home);
+                    };
+
+                    ConfirmManager.displayConfirm(player, new ConfirmManager.confirmInfo(
+                            "&c&l確認画面: クエストを中断",
+                            item_stopQuest, //はい
+                            item_cancelStopQuest, //いいえ
+                            stopQuest, //はい
+                            cancelStopQuest //いいえ
+                    ));
                     return;
                 }
                 QuestMC.getGuiManager().getOpenQuestDetails().put(player, new DataClass.QuestDetails(quest.getType(), getType()));
