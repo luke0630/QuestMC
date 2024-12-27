@@ -7,6 +7,7 @@ public class GUITypes {
         Quest_Detail,
     }
     public enum GUIEnum {
-        Home
+        Home,
+        Confirm
     }
 }
