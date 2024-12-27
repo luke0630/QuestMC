@@ -64,10 +64,10 @@ public class Quest_CraftTable_CreateAndPut extends QuestBase {
     @Override
     public List<ItemStack> getRewardItem() {
         return List.of(
-                getItem(Material.LEATHER_HELMET, ""),
-                getItem(Material.LEATHER_CHESTPLATE, ""),
-                getItem(Material.LEATHER_LEGGINGS, ""),
-                getItem(Material.LEATHER_BOOTS, "")
+                getItem(Material.IRON_HELMET, ""),
+                getItem(Material.IRON_CHESTPLATE, ""),
+                getItem(Material.IRON_LEGGINGS, ""),
+                getItem(Material.IRON_BOOTS, "")
         );
     }
 
