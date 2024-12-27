@@ -9,6 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.luke.questMC.Command.CommandManager;
 import org.luke.questMC.Event.EventManager;
 import org.luke.questMC.GUI.*;
+import org.luke.questMC.GUI.Confirm.GUI_Confirm;
 import org.luke.questMC.Quest.Normal.Quest_CraftTable_CreateAndPut;
 import org.luke.questMC.Quest.Normal.Quest_HelloWorld;
 import org.luke.questMC.QuestManager.QuestBase;
@@ -41,7 +42,8 @@ public final class QuestMC extends JavaPlugin implements Listener {
                 new List_QuestDetails(),
                 new List_CompletedQuests(),
 
-                new QuestHome()
+                new QuestHome(),
+                new GUI_Confirm()
         ));
 
         guiManager = new DataClass();
