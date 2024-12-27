@@ -15,7 +15,7 @@ import java.util.UUID;
 
 public class SQLManager {
     public interface MyCallback {
-        void onComplete();
+        void run();
     }
 
     static Connection connection = null;
@@ -35,7 +35,7 @@ public class SQLManager {
             System.out.println(SQLData.getUSERNAME() + "   " + SQLData.getPASSWORD());
             connection = DriverManager.getConnection(url, SQLData.getUSERNAME(), SQLData.getPASSWORD());
 
-            result.onComplete();
+            result.run();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -107,7 +107,7 @@ public class SQLManager {
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
-            callback.onComplete();
+            callback.run();
         }
     }
     public static void SaveProgressData(QuestEnum.Quest_Normal type, String json) {
@@ -167,7 +167,7 @@ public class SQLManager {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            callback.onComplete();
+            callback.run();
         }
     }
 
