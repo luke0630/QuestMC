@@ -104,6 +104,7 @@ public final class QuestMC extends JavaPlugin implements Listener {
 
             if(!QuestManager.isProgressPlayer(uuid)) return;
             if(QuestManager.getProgressInfo().get(uuid).getType() != quest.getType()) return;
+            if(quest.getProgressInfo(player) == null) return;
 
             List<String> progressInfo = quest.getProgressInfo(player);
             QuestManager.UpdateProgressInfo(
