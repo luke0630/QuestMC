@@ -6,10 +6,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 import org.luke.questMC.QuestManager.QuestBase;
 import org.luke.questMC.QuestManager.QuestEnum;
-import org.luke.questMC.QuestManager.QuestManager;
 import org.luke.questMC.SQL.SQLUtility;
 import org.luke.takoyakiLibrary.TakoUtility;
 
@@ -86,7 +86,7 @@ public class Quest_HelloWorld extends QuestBase {
     }
 
     @Override
-    public QuestEnum.Quest_Normal getType() {
+    public QuestEnum.@NotNull Quest_Normal getType() {
         return QuestEnum.Quest_Normal.Hello_World;
     }
 

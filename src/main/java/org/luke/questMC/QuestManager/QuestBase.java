@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 import org.luke.questMC.SQL.SQLManager;
 import org.luke.questMC.Toast;
@@ -34,6 +35,7 @@ public abstract class QuestBase implements Listener {
     public abstract String SaveJson();
     public abstract void LoadJson(JSONObject json);
     public abstract List<String> getProgressInfo(Player player);
+    @NotNull
     public abstract QuestEnum.Quest_Normal getType();
 
     // クエスト完了 (基本動作)
