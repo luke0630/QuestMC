@@ -1,5 +1,6 @@
 package org.luke.questMC.Quest.Normal;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -103,10 +104,10 @@ public class Quest_The_Executor_Of_Land_Leveling extends QuestBase {
             int leftBlocks = destroyedCount.get(uuid) + 1;
             destroyedCount.replace(uuid ,leftBlocks);
             if(leftBlocks >= completionCondition) {
-                player.sendActionBar("コンプリート！");
+                player.sendActionBar(Component.text("コンプリート！"));
                 complete(player);
             } else {
-                player.sendActionBar("残り: " + destroyedCount.get(uuid) + "/"+ completionCondition +" 破壊してください");
+                player.sendActionBar(Component.text("残り: " + destroyedCount.get(uuid) + "/"+ completionCondition +" 破壊してください"));
             }
         }
     }
