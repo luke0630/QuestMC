@@ -5,10 +5,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.luke.questMC.DataClass;
 import org.luke.questMC.GUI.Confirm.ConfirmManager;
 import org.luke.questMC.QuestMC;
 import org.luke.questMC.QuestManager.QuestBase;
+import org.luke.questMC.QuestManager.QuestEnum;
 import org.luke.questMC.QuestManager.QuestManager;
 import org.luke.questMC.QuestManager.QuestUtility;
 import org.luke.questMC.SQL.SQLManager;
@@ -88,12 +90,42 @@ public class QuestHome extends GUIAbstract<GUITypes.GUIEnum> {
         inv.setItem(4+2*9, start);
 
         var cleared = getItem(Material.REPEATER, "&a達成済みクエスト一覧");
-
         setLore(cleared, List.of(
                 "&c&lクリックして一覧を見る",
                 "&a&l*"+ completed +"個の達成済みのクエスト"
         ));
         inv.setItem(2+2*9, cleared);
+
+
+        //******USER INFO******
+        var userInfo = TakoUtility.getPlayerHead(player.getUniqueId());
+        ItemMeta meta = userInfo.getItemMeta();
+        meta.setDisplayName(toColor("&a" + player.getName() + "の情報"));
+        userInfo.setItemMeta(meta);
+
+        StringBuilder status = new StringBuilder();
+        float percent_of_completed = (float) completed / QuestEnum.Quest_Normal.values().length;
+
+        float percent_of_completed_twenty = percent_of_completed * 40;
+        for(int i=0;i < 40;i++) {
+            if(i <= percent_of_completed_twenty) {
+                status.append("&c|");
+            } else {
+                status.append("&f|");
+            }
+        }
+
+
+        setLore(userInfo, List.of(
+                "&7====================",
+                "&b達成済みのクエスト: " + completed + "個",
+                "&c未達成済みのクエスト: " + notCompleted + "個",
+                "&6達成率: "+ (percent_of_completed*100) +"%  "+ status
+        ));
+
+        inv.setItem(6+2*9, userInfo);
+        //******USER INFO******
+
         return inv;
     }
 
