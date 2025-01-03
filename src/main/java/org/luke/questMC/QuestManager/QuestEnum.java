@@ -9,7 +9,8 @@ public class QuestEnum {
         Hello_World(Material.GRASS_BLOCK, "ハローワールド"),
         Master_of_Crafting_Table(Material.CRAFTING_TABLE, "作業台の鉄人"),
         The_Executor_of_Land_Leveling(Material.IRON_PICKAXE, "整地の遂行者"),
-        Manager_of_the_sleeping_quarters(Material.RED_BED, "寝床の管理人"),
+        Manager_of_the_bed(Material.RED_BED, "寝床の管理人"),
+        Fisher_of_the_Sea(Material.FISHING_ROD, "海の釣り人"),
 
         ;
 
