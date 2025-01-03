@@ -10,7 +10,7 @@ import static org.luke.takoyakiLibrary.TakoUtility.setLore;
 
 public class QuestUtility {
     public static ItemStack getIcon(QuestBase quest) {
-        ItemStack item = TakoUtility.getItem(quest.getIcon(), quest.getQuestName());
+        ItemStack item = TakoUtility.getItem(quest.getType().getIcon(), quest.getType().getTitle());
 
         List<String> lore = new ArrayList<>();
         lore.add("&c&l----------------------------");

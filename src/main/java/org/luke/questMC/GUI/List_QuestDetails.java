@@ -23,7 +23,7 @@ public class List_QuestDetails extends ListGUIAbstract<GUITypes.ListGUIEnum> {
     QuestBase quest;
     @Override
     public String getGUITitle() {
-        return "達成報酬リスト : " + quest.getQuestName();
+        return "達成報酬リスト : " + quest.getType().getTitle();
     }
 
     @Override
@@ -47,7 +47,7 @@ public class List_QuestDetails extends ListGUIAbstract<GUITypes.ListGUIEnum> {
 
             return item;
         } else {
-            var item = getItem(Material.BARRIER, "&f&l" + quest.getQuestName());
+            var item = getItem(Material.BARRIER, "&f&l" + quest.getType().getTitle());
             TakoUtility.setLore(item, List.of(
                     "&cこのクエストは現在進行中です。"
             ));
