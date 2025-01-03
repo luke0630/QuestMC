@@ -27,8 +27,6 @@ public abstract class QuestBase implements Listener {
     public record RewardInfo(List<String> description, RewardRunnable runnable){}
 
     // クエスト名を取得
-    public abstract Material getIcon();
-    public abstract String getQuestName();
     public abstract List<String> getDescription();
     public abstract List<ItemStack> getRewardItem();
     public abstract RewardInfo getRewardCustom();

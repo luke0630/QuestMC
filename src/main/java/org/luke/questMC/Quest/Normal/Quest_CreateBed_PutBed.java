@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 import org.luke.questMC.QuestManager.QuestBase;
 import org.luke.questMC.QuestManager.QuestEnum;
@@ -36,16 +37,6 @@ public class Quest_CreateBed_PutBed extends QuestBase {
     }
 
     final bedProgress init = bedProgress.create;
-
-    @Override
-    public Material getIcon() {
-        return Material.RED_BED;
-    }
-
-    @Override
-    public String getQuestName() {
-        return "寝床の管理人";
-    }
 
     @Override
     public List<String> getDescription() {
@@ -106,7 +97,7 @@ public class Quest_CreateBed_PutBed extends QuestBase {
     }
 
     @Override
-    public QuestEnum.Quest_Normal getType() {
+    public QuestEnum.@NotNull Quest_Normal getType() {
         return QuestEnum.Quest_Normal.Manager_of_the_sleeping_quarters;
     }
 

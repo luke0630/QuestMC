@@ -22,7 +22,7 @@ import static org.luke.questMC.QuestManager.QuestEnum.Quest_Normal.Master_of_Cra
 import static org.luke.takoyakiLibrary.TakoUtility.getItem;
 import static org.luke.takoyakiLibrary.TakoUtility.toColor;
 
-public class Quest_CraftTable_CreateAndPut extends QuestBase {
+public class Master_of_Crafting_Table extends QuestBase {
 
     private enum craft_progress {
         CREATE_CRAFT_TABLE(2),
@@ -43,16 +43,6 @@ public class Quest_CraftTable_CreateAndPut extends QuestBase {
 
     record Progress(craft_progress progress, Integer count) {}
     private final Map<UUID, Progress> progressInfo = new HashMap<>();
-
-    @Override
-    public Material getIcon() {
-        return Material.CRAFTING_TABLE;
-    }
-
-    @Override
-    public String getQuestName() {
-        return "作業台の鉄人";
-    }
 
     @Override
     public List<String> getDescription() {

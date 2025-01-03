@@ -26,16 +26,6 @@ public class Quest_The_Executor_Of_Land_Leveling extends QuestBase {
     private final Map<UUID, Integer> destroyedCount = new HashMap<>(); //残り
 
     @Override
-    public Material getIcon() {
-        return Material.IRON_PICKAXE;
-    }
-
-    @Override
-    public String getQuestName() {
-        return "整地の遂行者";
-    }
-
-    @Override
     public List<String> getDescription() {
         return List.of(
                 completionCondition + "個のブロックを破壊する"

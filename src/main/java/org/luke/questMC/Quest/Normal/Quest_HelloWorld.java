@@ -23,16 +23,6 @@ public class Quest_HelloWorld extends QuestBase {
     final double completionCondition = 100;
 
     @Override
-    public Material getIcon() {
-        return Material.GRASS_BLOCK;
-    }
-
-    @Override
-    public String getQuestName() {
-        return "ハローワールド";
-    }
-
-    @Override
     public List<String> getDescription() {
         return List.of(
                 completionCondition + "メートル歩き回る"
