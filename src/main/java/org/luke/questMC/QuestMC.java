@@ -11,6 +11,7 @@ import org.luke.questMC.Event.EventManager;
 import org.luke.questMC.GUI.*;
 import org.luke.questMC.GUI.Confirm.GUI_Confirm;
 import org.luke.questMC.Quest.Normal.Quest_CraftTable_CreateAndPut;
+import org.luke.questMC.Quest.Normal.Quest_CreateBed_PutBed;
 import org.luke.questMC.Quest.Normal.Quest_HelloWorld;
 import org.luke.questMC.Quest.Normal.Quest_The_Executor_Of_Land_Leveling;
 import org.luke.questMC.QuestManager.QuestBase;
@@ -65,7 +66,8 @@ public final class QuestMC extends JavaPlugin implements Listener {
             List.of(
                     new Quest_HelloWorld(),
                     new Quest_CraftTable_CreateAndPut(),
-                    new Quest_The_Executor_Of_Land_Leveling()
+                    new Quest_The_Executor_Of_Land_Leveling(),
+                    new Quest_CreateBed_PutBed()
             )
         );
 
