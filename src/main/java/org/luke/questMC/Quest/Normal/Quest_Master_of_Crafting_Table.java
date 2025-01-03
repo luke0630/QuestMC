@@ -22,7 +22,7 @@ import static org.luke.questMC.QuestManager.QuestEnum.Quest_Normal.Master_of_Cra
 import static org.luke.takoyakiLibrary.TakoUtility.getItem;
 import static org.luke.takoyakiLibrary.TakoUtility.toColor;
 
-public class Master_of_Crafting_Table extends QuestBase {
+public class Quest_Master_of_Crafting_Table extends QuestBase {
 
     private enum craft_progress {
         CREATE_CRAFT_TABLE(2),
