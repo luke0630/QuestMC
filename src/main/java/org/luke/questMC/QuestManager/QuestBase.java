@@ -1,7 +1,6 @@
 package org.luke.questMC.QuestManager;
 
 import net.kyori.adventure.text.Component;
-import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -45,7 +44,7 @@ public abstract class QuestBase implements Listener {
         QuestManager.getProgressInfo().remove(player.getUniqueId());
         QuestManager.addClearedQuest(player.getUniqueId(), getType());
 
-        player.sendMessage(toColor("&a&lクエストを達成しました: " + getQuestName()));
+        player.sendMessage(toColor("&a&lクエストを達成しました: " + getType().getTitle()));
         player.sendMessage(toColor("&a以下の報酬が渡されました。"));
 
         if(getRewardItem() != null) {
@@ -60,7 +59,7 @@ public abstract class QuestBase implements Listener {
         }
 
         player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1.0f, 1.0f);
-        displayTo(player , "emerald" , getQuestName(), Toast.Style.GOAL);
+        displayTo(player , "emerald" , getType().getTitle(), Toast.Style.GOAL);
     }
 
     public abstract void onComplete(Player player);

@@ -48,7 +48,7 @@ public class QuestHome extends GUIAbstract<GUITypes.GUIEnum> {
             var item = QuestUtility.getIcon(quest);
 
             var result = new ArrayList<String>();
-            result.add("&f" + quest.getQuestName());
+            result.add("&f" + quest.getType().getTitle());
             result.addAll( item.getLore() );
             result.add("&c&l現在の進行状況");
 
@@ -148,7 +148,7 @@ public class QuestHome extends GUIAbstract<GUITypes.GUIEnum> {
                             "&c&l進行中のクエストを中断します。",
                             "&c&l進行状況はすべて消えます。",
                             "&a&l-----進行中のクエスト-----",
-                            "&a" + quest.getQuestName()
+                            "&a" + quest.getType().getTitle()
                     ));
 
                     SQLManager.MyCallback stopQuest = () -> {
@@ -159,11 +159,9 @@ public class QuestHome extends GUIAbstract<GUITypes.GUIEnum> {
                         SQLManager.updateCurrentQuest(player.getUniqueId(), null);
                         SQLManager.SaveProgressData(quest.getType(), quest.SaveJson());
 
-                        player.sendMessage(toColor("&c&l" + quest.getQuestName() + " を中断しました。"));
+                        player.sendMessage(toColor("&c&l" + quest.getType().getTitle() + " を中断しました。"));
                     };
-                    SQLManager.MyCallback cancelStopQuest = () -> {
-                        QuestMC.getManager().OpenGUI(player, GUITypes.GUIEnum.Home);
-                    };
+                    SQLManager.MyCallback cancelStopQuest = () -> QuestMC.getManager().OpenGUI(player, GUITypes.GUIEnum.Home);
 
                     ConfirmManager.displayConfirm(player, new ConfirmManager.confirmInfo(
                             "&c&l確認画面: クエストを中断",

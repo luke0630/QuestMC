@@ -10,7 +10,7 @@ import org.luke.questMC.Command.CommandManager;
 import org.luke.questMC.Event.EventManager;
 import org.luke.questMC.GUI.*;
 import org.luke.questMC.GUI.Confirm.GUI_Confirm;
-import org.luke.questMC.Quest.Normal.Quest_CraftTable_CreateAndPut;
+import org.luke.questMC.Quest.Normal.Master_of_Crafting_Table;
 import org.luke.questMC.Quest.Normal.Quest_CreateBed_PutBed;
 import org.luke.questMC.Quest.Normal.Quest_HelloWorld;
 import org.luke.questMC.Quest.Normal.Quest_The_Executor_Of_Land_Leveling;
@@ -65,7 +65,7 @@ public final class QuestMC extends JavaPlugin implements Listener {
         QuestManager.registerQuest(
             List.of(
                     new Quest_HelloWorld(),
-                    new Quest_CraftTable_CreateAndPut(),
+                    new Master_of_Crafting_Table(),
                     new Quest_The_Executor_Of_Land_Leveling(),
                     new Quest_CreateBed_PutBed()
             )
@@ -120,7 +120,7 @@ public final class QuestMC extends JavaPlugin implements Listener {
 
             List<String> messageList = new ArrayList<>(List.of(
                     "&e===================================",
-                    "&b現在クエストが進行中です。 クエスト: " + quest.getQuestName(),
+                    "&b現在クエストが進行中です。 クエスト: " + quest.getType().getTitle(),
                     "&c&l-----進行状況-----"
             ));
             messageList.addAll(progressInfo);
