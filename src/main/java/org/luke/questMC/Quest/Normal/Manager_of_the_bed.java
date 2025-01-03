@@ -20,7 +20,7 @@ import java.util.UUID;
 import static org.luke.takoyakiLibrary.TakoUtility.getItem;
 import static org.luke.takoyakiLibrary.TakoUtility.toColor;
 
-public class Quest_CreateBed_PutBed extends QuestBase {
+public class Manager_of_the_bed extends QuestBase {
     private final Map<UUID, bedProgress> progressInfo = new HashMap<>();
 
     private enum bedProgress {
@@ -98,7 +98,7 @@ public class Quest_CreateBed_PutBed extends QuestBase {
 
     @Override
     public QuestEnum.@NotNull Quest_Normal getType() {
-        return QuestEnum.Quest_Normal.Manager_of_the_sleeping_quarters;
+        return QuestEnum.Quest_Normal.Manager_of_the_bed;
     }
 
     @Override

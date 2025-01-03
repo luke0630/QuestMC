@@ -65,6 +65,7 @@ public final class QuestMC extends JavaPlugin implements Listener {
                     new Quest_Master_of_Crafting_Table(),
                     new Quest_The_Executor_Of_Land_Leveling(),
                     new Quest_CreateBed_PutBed()
+                    new Manager_of_the_bed(),
             )
         );
 
