@@ -104,9 +104,11 @@ public class QuestHome extends GUIAbstract<GUITypes.GUIEnum> {
         userInfo.setItemMeta(meta);
 
         StringBuilder status = new StringBuilder();
-        float percent_of_completed = (float) completed / QuestEnum.Quest_Normal.values().length;
+        float completionRatio = (float) completed / QuestEnum.Quest_Normal.values().length;
+        float completionPercentage = (completionRatio*100);
 
-        float percent_of_completed_twenty = percent_of_completed * 40;
+        String formattedTime = String.format("%.1f", completionPercentage);
+
         float completionPercentageForBar = completionRatio * 40;
         for(int i=0;i < 40;i++) {
             if(i < completionPercentageForBar) {
