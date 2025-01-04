@@ -120,7 +120,7 @@ public class QuestHome extends GUIAbstract<GUITypes.GUIEnum> {
                 "&7====================",
                 "&b達成済みのクエスト: " + completed + "個",
                 "&c未達成済みのクエスト: " + notCompleted + "個",
-                "&6達成率: "+ (percent_of_completed*100) +"%  "+ status
+                "&6達成率: "+ formattedTime +"%  "+ status
         ));
 
         inv.setItem(6+2*9, userInfo);
