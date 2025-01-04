@@ -108,7 +108,7 @@ public class QuestHome extends GUIAbstract<GUITypes.GUIEnum> {
 
         float percent_of_completed_twenty = percent_of_completed * 40;
         for(int i=0;i < 40;i++) {
-            if(i <= percent_of_completed_twenty) {
+            if(i < completionPercentageForBar) {
                 status.append("&c|");
             } else {
                 status.append("&f|");
