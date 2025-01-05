@@ -21,7 +21,7 @@ import java.util.*;
 import static org.luke.takoyakiLibrary.TakoUtility.getItem;
 import static org.luke.takoyakiLibrary.TakoUtility.toColor;
 
-public class Fisher_of_the_Sea extends QuestBase {
+public class Quest_Fisher_of_the_Sea extends QuestBase {
     private final Map<UUID, Byte> progressInfo = new HashMap<>();
     final byte completed_count = 4;
 

@@ -20,7 +20,7 @@ import java.util.UUID;
 import static org.luke.takoyakiLibrary.TakoUtility.getItem;
 import static org.luke.takoyakiLibrary.TakoUtility.toColor;
 
-public class Manager_of_the_bed extends QuestBase {
+public class Quest_Manager_of_the_bed extends QuestBase {
     private final Map<UUID, bedProgress> progressInfo = new HashMap<>();
 
     private enum bedProgress {
