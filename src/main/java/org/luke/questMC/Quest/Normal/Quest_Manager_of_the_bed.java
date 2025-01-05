@@ -73,7 +73,6 @@ public class Quest_Manager_of_the_bed extends QuestBase {
 
     @Override
     public void LoadJson(JSONObject json) {
-        System.out.println(json.toString());
         for (String key : json.keySet()) {
             Object value = json.get(key);
 
