@@ -64,8 +64,6 @@ public final class QuestMC extends JavaPlugin implements Listener {
                     new Quest_HelloWorld(),
                     new Quest_Master_of_Crafting_Table(),
                     new Quest_The_Executor_Of_Land_Leveling(),
-                    new Manager_of_the_bed(),
-                    new Fisher_of_the_Sea()
                     new Quest_Manager_of_the_bed(),
                     new Quest_Fisher_of_the_Sea(),
             )
