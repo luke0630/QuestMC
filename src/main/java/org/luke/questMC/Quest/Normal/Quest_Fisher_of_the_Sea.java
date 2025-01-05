@@ -96,13 +96,17 @@ public class Quest_Fisher_of_the_Sea extends QuestBase {
 
         if(!isInProgress(player)) return;
 
+        UUID uuid = player.getUniqueId();
+        if(!progressInfo.containsKey(uuid)) {
+            onStart(player);
+        }
+
         if (event.getState() == PlayerFishEvent.State.CAUGHT_FISH) {
             // 釣れたものを取得
             if (event.getCaught() instanceof Item caughtItem) {
                 Material itemType = caughtItem.getItemStack().getType();
 
                 if (isFish(itemType)) {
-                    UUID uuid = player.getUniqueId();
                     byte current = progressInfo.get(uuid);
                     byte next = (byte) (current + 1);
                     progressInfo.put(uuid, next);

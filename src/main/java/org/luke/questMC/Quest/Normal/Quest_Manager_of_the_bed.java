@@ -121,6 +121,10 @@ public class Quest_Manager_of_the_bed extends QuestBase {
         if(item.getType() != Material.RED_BED) return;
         UUID uuid = player.getUniqueId();
 
+        if(!progressInfo.containsKey(uuid)) {
+            onStart(player);
+        }
+
         if(progressInfo.get(uuid) == bedProgress.create) {
             player.closeInventory();
             progressInfo.put(uuid, bedProgress.put);
