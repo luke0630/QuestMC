@@ -83,7 +83,10 @@ public class Quest_The_Executor_Of_Land_Leveling extends QuestBase {
     @Override
     protected void onStart(Player player) {
         destroyedCount.put(player.getUniqueId(), 0);
-        player.sendMessage(toColor("&c&lブロックを" + completionCondition + "個破壊してください。"));
+        player.sendMessage(toColor(String.format(
+                "&c&lブロックを%d個破壊してください",
+                completionCondition
+        )));
     }
 
     @EventHandler
@@ -101,6 +104,12 @@ public class Quest_The_Executor_Of_Land_Leveling extends QuestBase {
         if(leftBlocks >= completionCondition) {
             player.sendActionBar(Component.text("コンプリート！"));
             complete(player);
+        } else {
+            player.sendActionBar(Component.text(String.format(
+                    "残り: %d/%d 破壊してください",
+                    leftBlocks,
+                    completionCondition
+            )));
         }
     }
 }
