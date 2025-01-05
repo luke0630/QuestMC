@@ -99,6 +99,17 @@ public class Quest_The_Executor_Of_Land_Leveling extends QuestBase {
             } else {
                 player.sendActionBar(Component.text("残り: " + destroyedCount.get(uuid) + "/"+ completionCondition +" 破壊してください"));
             }
+        if(!isInProgress(player)) return;
+
+        if(!destroyedCount.containsKey(uuid)) {
+            destroyedCount.put(uuid, 0);
+        }
+
+        int leftBlocks = destroyedCount.get(uuid) + 1;
+        destroyedCount.replace(uuid ,leftBlocks);
+        if(leftBlocks >= completionCondition) {
+            player.sendActionBar(Component.text("コンプリート！"));
+            complete(player);
         }
     }
 }
