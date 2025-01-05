@@ -152,6 +152,9 @@ public class Quest_Master_of_Crafting_Table extends QuestBase {
         if(item.getType() != Material.CRAFTING_TABLE) return;
 
         UUID uuid = player.getUniqueId();
+        if(!progressInfo.containsKey(uuid)) {
+            onStart(player);
+        }
 
         if(progressInfo.get(uuid).progress == craft_progress.CREATE_CRAFT_TABLE) {
             int itemResultAmount = TakoUtility.getCraftedItemCount(event);
