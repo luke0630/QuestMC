@@ -64,8 +64,12 @@ public class Quest_Iron_Man extends QuestBase {
 
     @Override
     public List<String> getProgressInfo(Player player) {
+        UUID uuid = player.getUniqueId();
         return List.of(
-                String.format("鉄鉱石(あるいは深層鉄鉱石)を%d個破壊する", completionCondition)
+                String.format("残り: %d/%d 鉄鉱石を破壊してください",
+                        destroyedCount.get(uuid),
+                        completionCondition
+                )
         );
     }
 
