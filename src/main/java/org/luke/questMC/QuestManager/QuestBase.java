@@ -57,7 +57,7 @@ public abstract class QuestBase implements Listener {
         }
 
         player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1.0f, 1.0f);
-        displayTo(player , "emerald" , getType().getTitle(), Toast.Style.GOAL);
+        displayTo(player , getType().getIcon() , getType().getTitle(), Toast.Style.GOAL);
     }
 
     public abstract void onComplete(Player player);
