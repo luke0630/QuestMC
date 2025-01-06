@@ -1,5 +1,6 @@
 package org.luke.questMC;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 
@@ -66,8 +67,8 @@ public final class Toast {
         player.getAdvancementProgress(Objects.requireNonNull(Bukkit.getAdvancement(key))).revokeCriteria("trigger");
     }
 
-    public static void displayTo(Player player, String icon, String message, Style style) {
-        new Toast(icon, message, style).start(player);
+    public static void displayTo(Player player, Material icon, String message, Style style) {
+        new Toast(icon.name().toLowerCase(), message, style).start(player);
     }
 
     public enum Style {
