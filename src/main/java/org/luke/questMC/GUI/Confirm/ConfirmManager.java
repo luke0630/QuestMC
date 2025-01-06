@@ -12,7 +12,7 @@ import java.util.Map;
 
 @UtilityClass
 public class ConfirmManager {
-    private Map<Player, confirmInfo> playerconfirmInfoMap = new HashMap<>();
+    private final Map<Player, confirmInfo> playerconfirmInfoMap = new HashMap<>();
     public static void removePlayerConfirmInfo(Player player) {
         playerconfirmInfoMap.remove(player);
     }
