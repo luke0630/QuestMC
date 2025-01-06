@@ -59,7 +59,6 @@ public class QuestManager {
         SQLManager.addCompletedType(uuid.toString(), questNormal);
     }
 
-    // クエストを開始
     public void startQuest(QuestEnum.Quest_Normal questType, Player player) {
         QuestBase quest = getQuest(questType);
         UUID uuid = player.getUniqueId();
