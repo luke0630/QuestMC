@@ -97,16 +97,16 @@ public class Quest_Master_of_Trade extends QuestBase {
 
         progressInfo.put(uuid, count);
 
-        player.sendMessage(toColor(String.format(
-                "&aあと%d回村人と引取してください。  %d/%d",
-                left,
-                count,
-                completed_count
-        )));
-
         if(left <= 0) {
             player.closeInventory();
             complete(player);
+        } else {
+            player.sendMessage(toColor(String.format(
+                    "&aあと%d回村人と引取してください。  %d/%d",
+                    left,
+                    count,
+                    completed_count
+            )));
         }
     }
 }
