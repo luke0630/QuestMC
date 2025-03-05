@@ -84,15 +84,15 @@ public class QuestHome extends GUIAbstract<GUITypes.GUIEnum> {
 
         var start = getItem(Material.COMPASS, "&aクエスト一覧 (未達成) &f| &cクエストを開始する");
         setLore(start, List.of(
-                "&c&lクリックして一覧を見る",
-                "&a&l*"+ notCompleted +"個の未達成のクエスト"
+                "&cクリックして一覧を見る",
+                "&6*未達成のクエスト: "+ notCompleted +"個"
         ));
         inv.setItem(4+2*9, start);
 
         var cleared = getItem(Material.REPEATER, "&a達成済みクエスト一覧");
         setLore(cleared, List.of(
-                "&c&lクリックして一覧を見る",
-                "&a&l*"+ completed +"個の達成済みのクエスト"
+                "&cクリックして一覧を見る",
+                "&6*達成済みのクエスト"+ completed +"個"
         ));
         inv.setItem(2+2*9, cleared);
 
