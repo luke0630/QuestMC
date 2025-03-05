@@ -93,7 +93,7 @@ public class Quest_The_Executor_Of_Land_Leveling extends QuestBase {
     public void onPlayerBreakBlock(BlockBreakEvent event) {
         Player player = event.getPlayer();
         UUID uuid = player.getUniqueId();
-        if(!isInProgress(player)) return;
+        if(isInProgress(player)) return;
 
         if(!destroyedCount.containsKey(uuid)) {
             destroyedCount.put(uuid, 0);

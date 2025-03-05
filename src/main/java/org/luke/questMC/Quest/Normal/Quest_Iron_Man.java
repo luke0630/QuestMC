@@ -97,7 +97,7 @@ public class Quest_Iron_Man extends QuestBase {
         Player player = event.getPlayer();
         UUID uuid = player.getUniqueId();
 
-        if(!isInProgress(player)) return;
+        if(isInProgress(player)) return;
         if(!Tag.IRON_ORES.isTagged(event.getBlock().getType())) return; //鉄鉱石以外だったらreturnする
 
         if(!destroyedCount.containsKey(uuid)) {

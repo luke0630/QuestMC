@@ -85,7 +85,7 @@ public class Quest_Master_of_Trade extends QuestBase {
     public void onPlayerTrade(PlayerTradeEvent event) {
         Player player = event.getPlayer();
 
-        if(!isInProgress(player)) return;
+        if(isInProgress(player)) return;
 
         UUID uuid = player.getUniqueId();
         if(!progressInfo.containsKey(uuid)) {

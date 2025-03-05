@@ -114,6 +114,8 @@ public class Quest_Manager_of_the_bed extends QuestBase {
     @EventHandler
     public void onCraftItemEvent(CraftItemEvent event) {
         Player player = (Player) event.getWhoClicked();
+        if(isInProgress(player)) return;
+
         ItemStack item = event.getRecipe().getResult();
 
         if(!isInProgress(player)) return;

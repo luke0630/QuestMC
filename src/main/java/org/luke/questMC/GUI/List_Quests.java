@@ -33,7 +33,7 @@ public class List_Quests extends ListGUIAbstract<GUITypes.ListGUIEnum> {
         List<ItemStack> items = new ArrayList<>();
         for(var quest : QuestManager.getQuests().values()) {
             UUID uuid = player.getUniqueId();
-            if(!quest.isInProgress(player)) {
+            if(quest.isInProgress(player)) {
                 List<QuestEnum.Quest_Normal> completedQuests = SQLManager.getCompletedQuestList(uuid);
 
                 if(completedQuests != null && completedQuests.contains(quest.getType())) continue; //達成済みは載せない
