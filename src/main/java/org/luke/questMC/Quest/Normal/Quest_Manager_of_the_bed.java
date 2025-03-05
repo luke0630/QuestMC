@@ -136,7 +136,7 @@ public class Quest_Manager_of_the_bed extends QuestBase {
     public void onPlaceBlock(BlockPlaceEvent event) {
         Player player = event.getPlayer();
 
-        if(!isInProgress(player)) return;
+        if(isInProgress(player)) return;
 
         UUID uuid = player.getUniqueId();
         if(progressInfo.get(uuid) == bedProgress.put && isBed(event.getBlock().getType())) {
