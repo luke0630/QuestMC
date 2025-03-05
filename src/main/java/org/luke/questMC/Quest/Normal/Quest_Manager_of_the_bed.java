@@ -24,9 +24,8 @@ public class Quest_Manager_of_the_bed extends QuestBase {
     private final Map<UUID, bedProgress> progressInfo = new HashMap<>();
 
     private enum bedProgress {
-        create("ベッドを作成してください"),
-        put("ベッドを設置してください"),
-
+        create("作業台でベッドを1つ作成してください(色は問わない)"),
+        put("作成したベッドを設置してください"),
         ;
 
         private final String text;
@@ -41,8 +40,8 @@ public class Quest_Manager_of_the_bed extends QuestBase {
     @Override
     public List<String> getDescription() {
         return List.of(
-                "ベッドを一つクラフトし、",
-                "ベッドを設置する"
+                "作業台でベッドを1つ作成する(色は問わない)",
+                "作成したベッドを設置する"
         );
     }
 
