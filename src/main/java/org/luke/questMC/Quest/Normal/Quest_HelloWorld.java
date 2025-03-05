@@ -86,7 +86,7 @@ public class Quest_HelloWorld extends QuestBase {
         Player player = event.getPlayer();
 
         // クエスト進行中のプレイヤーのみ処理
-        if (isInProgress(player)) return;
+        if (isNotInProgress((player))) return;
 
         UUID uuid = player.getUniqueId();
         if(!walkedDistance.containsKey(uuid)) {

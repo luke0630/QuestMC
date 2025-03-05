@@ -148,7 +148,7 @@ public class Quest_Master_of_Crafting_Table extends QuestBase {
         Player player = (Player) event.getWhoClicked();
         ItemStack item = event.getRecipe().getResult();
 
-        if(isInProgress(player)) return;
+        if(isNotInProgress(player)) return;
         if(item.getType() != Material.CRAFTING_TABLE) return;
 
         UUID uuid = player.getUniqueId();
@@ -177,7 +177,7 @@ public class Quest_Master_of_Crafting_Table extends QuestBase {
     public void onPlaceBlock(BlockPlaceEvent event) {
         Player player = event.getPlayer();
 
-        if(isInProgress(player)) return;
+        if(isNotInProgress(player)) return;
 
         UUID uuid = player.getUniqueId();
         if(progressInfo.get(uuid).progress == craft_progress.PUT_CRAFT_TABLE) {

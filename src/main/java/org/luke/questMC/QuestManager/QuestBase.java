@@ -62,8 +62,8 @@ public abstract class QuestBase implements Listener {
 
     public abstract void onComplete(Player player);
 
-    // クエスト進行中か確認
-    public boolean isInProgress(Player player) {
+    // クエスト進行中じゃないかどうか確認
+    public boolean isNotInProgress(Player player) {
         UUID uuid = player.getUniqueId();
         if(QuestManager.isProgressPlayer(uuid)) {
             return QuestManager.getProgressInfo().get(uuid).getType() != getType();

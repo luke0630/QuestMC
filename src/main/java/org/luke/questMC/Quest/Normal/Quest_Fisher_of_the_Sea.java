@@ -94,7 +94,7 @@ public class Quest_Fisher_of_the_Sea extends QuestBase {
     public void onFishEvent(PlayerFishEvent event) {
         Player player = event.getPlayer();
 
-        if(isInProgress(player)) return;
+        if(isNotInProgress(player)) return;
 
         UUID uuid = player.getUniqueId();
         if(!progressInfo.containsKey(uuid)) {

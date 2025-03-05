@@ -113,7 +113,7 @@ public class Quest_Manager_of_the_bed extends QuestBase {
     @EventHandler
     public void onCraftItemEvent(CraftItemEvent event) {
         Player player = (Player) event.getWhoClicked();
-        if(isInProgress(player)) return;
+        if(isNotInProgress(player)) return;
 
         ItemStack item = event.getRecipe().getResult();
         if(!Tag.BEDS.isTagged(item.getType())) return;
@@ -134,7 +134,7 @@ public class Quest_Manager_of_the_bed extends QuestBase {
     public void onPlaceBlock(BlockPlaceEvent event) {
         Player player = event.getPlayer();
 
-        if(isInProgress(player)) return;
+        if(isNotInProgress(player)) return;
 
         UUID uuid = player.getUniqueId();
         if(progressInfo.get(uuid) == bedProgress.put && isBed(event.getBlock().getType())) {
