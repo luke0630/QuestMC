@@ -116,9 +116,7 @@ public class Quest_Manager_of_the_bed extends QuestBase {
         if(isInProgress(player)) return;
 
         ItemStack item = event.getRecipe().getResult();
-
-        if(!isInProgress(player)) return;
-        if(item.getType() != Material.RED_BED) return;
+        if(!Tag.BEDS.isTagged(item.getType())) return;
         UUID uuid = player.getUniqueId();
 
         if(!progressInfo.containsKey(uuid)) {
